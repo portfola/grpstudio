@@ -1,0 +1,43 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    red,
+    red 33.333%,
+    gold 33.333%,
+    gold 66.667%,
+    green 33.333%
+  );
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
+.reggae {
+  max-width: 80%;
+  margin:  0 auto;
+}
+
+.summer {
+  margin-top: 2em;
+  max-width: 140px;
+}
+
+.wrapper {
+  margin: 1em;
+  max-width: 96%;
+}
+
+@media only screen and (min-width: 750px) {
+  .reggae {
+    max-width: 600px;
+  }
+}

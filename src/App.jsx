@@ -1,5 +1,5 @@
-import reggae from './reggae-is-happening.jpg';
-import summer from './GRP_Summer.jpg';
+import reggae from './assets/reggae-is-happening.jpg';
+import summer from './assets/GRP_Summer.jpg';
 import './App.css';
 import ReactPlayer from "react-player"
 

@@ -1,7 +1,6 @@
 import reggae from './assets/reggae-is-happening.jpg';
 import summer from './assets/GRP_Summer.jpg';
 import './App.css';
-import ReactPlayer from "react-player"
 
 
 function App() {
@@ -20,9 +19,14 @@ function App() {
             so we did it.
           </p>
           <div>
-            <ReactPlayer
-              url="https://soundcloud.com/tabula-rasta/sets/tabbula-rasta-reggae-regatta"
-              className="reggae"
+            <iframe
+              width="100%"
+              height="300"
+              scrolling="no"
+              frameBorder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tabula-rasta/sets/tabbula-rasta-reggae-regatta&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+              title="SoundCloud Player"
             />
           </div>
           <img src={summer} className="summer" alt="Three men stand in front of the sea" />

@@ -1,8 +1,14 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import posthog from 'posthog-js';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
+  api_host: 'https://us.i.posthog.com',
+  person_profiles: 'identified_only',
+});
 
 const root = createRoot(document.getElementById('root'));
 root.render(

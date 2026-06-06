@@ -133,7 +133,7 @@ function App() {
       {/* Footer */}
       <footer className="footer anim-scroll">
         <div className="footer-rule" />
-        <p className="footer-text">We used to go to church.<br />We don't go to church no more.</p>
+        <p className="footer-text">I know the concept of Rasta means...<br />RIGHTEOUSNESS</p>
       </footer>
     </div>
   );

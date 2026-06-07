@@ -39,7 +39,7 @@ export default function AlbumPage() {
   if (!album) return <NotFound />;
 
   const { title, year, coverArt, ogImage, soundcloudUrl, notes, tracklist, credits } = album;
-  const ogAbsolute = SITE + (ogImage || '/og/default.jpg');
+  const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
   const shareUrl = `${SITE}/albums/${slug}`;
 
   function copyLink() {

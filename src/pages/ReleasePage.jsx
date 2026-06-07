@@ -44,7 +44,7 @@ export default function ReleasePage() {
 
   const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits } = release;
   const { newer, older } = getReleaseNeighbors(slug);
-  const ogAbsolute = SITE + (ogImage || '/og/default.jpg');
+  const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
   const shareUrl = `${SITE}/releases/${slug}`;
 
   function copyLink() {

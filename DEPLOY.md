@@ -61,7 +61,7 @@ catch-all, so real release/album pages keep their own OG.
 1. **Deep-link OG survives hard refresh.** In a fresh tab, open
    `https://grpstudio.com/releases/morning-ritual` and **View Source**. Confirm:
    - `<title>Morning Ritual — Georgetown Reggae Project</title>`
-   - `og:image` = `https://grpstudio.com/og/morning-ritual.jpg` (the song's card, **not** `default.jpg`)
+   - `og:image` = `https://grpstudio.com/og/morning-ritual.jpg` (the song's own card, **not** the `tabula-rasta.jpg` brand fallback)
    Repeat for an album: `/albums/reggae-regatta` → `og:type=music.album`, Reggae Regatta card.
    - 🚩 If you instead see the **homepage** title/OG, the catch-all is preempting file
      resolution — remove any extra blanket rewrite and confirm the nested files

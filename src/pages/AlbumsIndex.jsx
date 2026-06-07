@@ -21,7 +21,7 @@ export default function AlbumsIndex() {
         <title>Albums — Georgetown Reggae Project</title>
         <meta name="description" content="From the Vaults — the full-length records of Georgetown Reggae Project." />
         <meta property="og:title" content="Albums — Georgetown Reggae Project" />
-        <meta property="og:image" content={`${SITE}/og/default.jpg`} />
+        <meta property="og:image" content={`${SITE}/og/tabula-rasta.jpg`} />
       </Head>
 
       <h1 className="section-heading">From the Vaults</h1>

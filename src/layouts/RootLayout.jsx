@@ -38,7 +38,7 @@ export default function RootLayout() {
         <meta name="description" content="Georgetown Reggae Project — innovative, studio-produced reggae riddims. Always militant. Never political." />
         <meta property="og:site_name" content="Georgetown Reggae Project" />
         <meta property="og:title" content="Georgetown Reggae Project" />
-        <meta property="og:image" content="https://grpstudio.com/og/default.jpg" />
+        <meta property="og:image" content="https://grpstudio.com/og/tabula-rasta.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 

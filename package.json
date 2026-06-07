@@ -6,6 +6,8 @@
     "posthog-js": "^1.359.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.4",
+    "vite-react-ssg": "^0.9.1-beta.1",
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {
@@ -13,9 +15,9 @@
     "vite": "^6.3.3"
   },
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
+    "start": "vite-react-ssg dev",
+    "dev": "vite-react-ssg dev",
+    "build": "vite-react-ssg build",
     "preview": "vite preview"
   },
   "browserslist": {

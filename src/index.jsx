@@ -1,23 +1,21 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import posthog from 'posthog-js';
+import { ViteReactSSG } from 'vite-react-ssg';
+import { routes } from './routes';
+import './styles/tokens.css';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './App.css';
 
-posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
-  api_host: 'https://us.i.posthog.com',
-  person_profiles: 'identified_only',
-});
-
-const root = createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+export const createRoot = ViteReactSSG(
+  { routes },
+  () => {
+    // Browser-only side effects. Guarded so they never run during the
+    // Node prerender pass.
+    if (typeof window !== 'undefined') {
+      import('posthog-js').then(({ default: posthog }) => {
+        posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
+          api_host: 'https://us.i.posthog.com',
+          person_profiles: 'identified_only',
+        });
+      });
+    }
+  }
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

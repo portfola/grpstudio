@@ -527,6 +527,39 @@ body {
   color: var(--color-text-link);
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -8px -8px -8px 0; /* keep 44px hit area without inflating header */
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--easing-default),
+              border-color var(--duration-fast) var(--easing-default),
+              background var(--duration-fast) var(--easing-default);
+}
+
+.theme-toggle:hover {
+  color: var(--color-text-link);
+  border-color: var(--color-border-strong);
+}
+
+.theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.theme-toggle__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
 /* ========== RELEASES GRID (minimal first slice — Task 7 builds the full version) ========== */
 .releases {
   max-width: var(--max-width-wide);

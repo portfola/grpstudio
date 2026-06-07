@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, Link, NavLink, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
+import ThemeToggle from '../components/ThemeToggle';
 
 /**
  * React Router doesn't scroll to #hash targets or reset scroll on route
@@ -50,7 +51,7 @@ export default function RootLayout() {
         <nav className="site-header__nav" aria-label="Primary">
           <NavLink to="/#releases" className="site-header__link">Releases</NavLink>
           <NavLink to="/album" className="site-header__link">Album</NavLink>
-          {/* theme-toggle slot — filled in Task 4 */}
+          <ThemeToggle />
         </nav>
       </header>
 

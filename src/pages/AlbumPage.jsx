@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { getAlbumBySlug } from '../data/albums';
+import WebampPlayer from '../components/WebampPlayer';
 import NotFound from './NotFound';
 
 const SITE = 'https://grpstudio.com'; // canonical origin for absolute OG + share urls
@@ -27,6 +28,11 @@ function toArchiveEmbedUrl(itemUrl) {
   return itemUrl.replace('/details/', '/embed/');
 }
 
+/** Per-file download base for an Internet Archive item (…/download/ID/). */
+function toArchiveDownloadBase(itemUrl) {
+  return itemUrl.replace('/details/', '/download/').replace(/\/$/, '') + '/';
+}
+
 /**
  * Per-album landing page (/albums/:slug). Mirrors the release-page anatomy —
  * framed sleeve, title + year, in-place playback, notes, credits — but the
@@ -43,7 +49,7 @@ export default function AlbumPage() {
 
   if (!album) return <NotFound />;
 
-  const { title, year, coverArt, ogImage, soundcloudUrl, archiveUrl, notes, tracklist, credits } = album;
+  const { title, year, coverArt, ogImage, soundcloudUrl, archiveUrl, notes, tracklist, tracks, credits } = album;
   const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
   const shareUrl = `${SITE}/albums/${slug}`;
 
@@ -55,6 +61,22 @@ export default function AlbumPage() {
   const playerTitle = onArchive
     ? `${title} — Internet Archive player`
     : `${title} — SoundCloud player`;
+
+  // Archive albums with a structured `tracks` list play through Webamp (the
+  // Winamp engine the Internet Archive itself uses), streaming each original
+  // file from the item; everything else uses the embed iframe.
+  const useWebamp = onArchive && tracks?.length > 0;
+  // Memoised: a fresh array each render would retrigger WebampPlayer's effect and
+  // rebuild the whole player on unrelated state changes (e.g. the copy-link toggle).
+  const webampTracks = useMemo(
+    () => (useWebamp
+      ? tracks.map((t) => ({ ...t, url: toArchiveDownloadBase(archiveUrl) + t.file }))
+      : []),
+    [useWebamp, tracks, archiveUrl],
+  );
+
+  // One displayed tracklist whether the source is `tracks` objects or `tracklist` strings.
+  const displayTracks = tracklist ?? tracks?.map((t) => t.title);
 
   function copyLink() {
     navigator.clipboard?.writeText(shareUrl).then(() => {
@@ -127,17 +149,28 @@ export default function AlbumPage() {
           <span className="label-text">FULL RECORD</span>
           <span className="label-rule" />
         </div>
-        <iframe
-          className="release__player"
-          title={playerTitle}
-          src={embedSrc}
-          width="100%"
-          height="380"
-          frameBorder="0"
-          scrolling="no"
-          loading="lazy"
-          allow="autoplay"
-        />
+        {useWebamp ? (
+          <WebampPlayer
+            tracks={webampTracks}
+            fallback={
+              <a href={listenUrl} target="_blank" rel="noreferrer">
+                Listen on the Internet Archive <span aria-hidden="true">&#8599;</span>
+              </a>
+            }
+          />
+        ) : (
+          <iframe
+            className="release__player"
+            title={playerTitle}
+            src={embedSrc}
+            width="100%"
+            height="380"
+            frameBorder="0"
+            scrolling="no"
+            loading="lazy"
+            allow="autoplay"
+          />
+        )}
       </div>
 
       {notes && (
@@ -146,11 +179,11 @@ export default function AlbumPage() {
         </div>
       )}
 
-      {tracklist?.length > 0 && (
+      {displayTracks?.length > 0 && (
         <section className="album__tracklist-wrap">
           <h2 className="release__credits-heading">Tracklist</h2>
           <ol className="album__tracklist">
-            {tracklist.map((t, i) => (
+            {displayTracks.map((t, i) => (
               <li key={i} className="album__track">
                 <span className="album__track-num">{String(i + 1).padStart(2, '0')}</span>
                 <span className="album__track-name">{t}</span>

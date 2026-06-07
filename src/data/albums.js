@@ -16,7 +16,10 @@
  *                          source to soundcloudUrl; the page embeds + links whichever
  *                          one is present (archive wins if both are set)
  *   notes         string[] paragraphs of about/liner prose (optional)
- *   tracklist     string[] ordered track titles (optional)
+ *   tracklist     string[] ordered track titles (optional) — for SoundCloud albums
+ *   tracks        object[] ordered { title, file, length } for archive albums; drives
+ *                          the Webamp player AND the displayed list (single source).
+ *                          Use this OR tracklist, not both.
  *   credits       object   { producer, musicians[], studio } (all optional)
  */
 export const albums = [
@@ -65,14 +68,17 @@ export const albums = [
       "The GRP's debut. Tabula Rasta dropped on February 17, 2001 — a clean slate, the riddim wiped back to first principles: seven cuts of studio-built reggae, sparse and strange, dub tails left long.",
       'Most music written by GRP. With respect to Peter, Bunny and Bob, Black Uhuru, Marcus Garvey, Big Youth — and Bret Easton Ellis. Always militant, never political.',
     ],
-    tracklist: [
-      'Used to Go to Church',
-      'Stir It Up Dub',
-      'Mellow Wine',
-      'The Clique',
-      'Freebass',
-      'Ghebresus',
-      'Freebass (Not Like, It Is)',
+    // Streamed straight from the Internet Archive item via the Webamp (Winamp)
+    // player. `file` is the original upload under …/download/<id>/; `length` is
+    // seconds (lets the player show durations before audio metadata loads).
+    tracks: [
+      { title: 'Used to Go to Church', file: '01-Used-to-Go-to-Church.mp3', length: 61.71 },
+      { title: 'Stir It Up Dub', file: '02-Stir-It-Up-Dub.mp3', length: 80.86 },
+      { title: 'Mellow Wine', file: '03-Mellow-Wine.mp3', length: 281.03 },
+      { title: 'The Clique', file: '04-The-Clique.mp3', length: 299.29 },
+      { title: 'Freebass', file: '05-Freebass.mp3', length: 206.14 },
+      { title: 'Ghebresus', file: '06-Ghebresus.mp3', length: 231.32 },
+      { title: 'Freebass (Not Like, It Is)', file: '07-Freebass-Not-Like-It-Is.mp3', length: 179.81 },
     ],
     credits: {
       musicians: ['Chinamon', 'Doc Brown', "Drumbo'x"],

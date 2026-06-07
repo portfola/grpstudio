@@ -1081,6 +1081,38 @@ main:focus { outline: none; }
   background: var(--color-bg-secondary);
 }
 
+/* Webamp (Winamp) player for archive-sourced albums. Webamp renders its skinned
+   windows absolutely inside the mount, so the host needs a positioning context
+   and reserved height (main + EQ + playlist stacked ≈ 348px). */
+.webamp-host {
+  position: relative;
+  min-height: 360px;
+  /* Winamp windows are fixed-pixel; let narrow screens scroll instead of clip. */
+  overflow-x: auto;
+}
+
+.webamp-mount {
+  position: relative;
+}
+
+.webamp-fallback {
+  font-family: var(--font-label);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-7) var(--space-5);
+}
+
+.webamp-fallback a {
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+
+.webamp-fallback a:hover {
+  text-decoration: underline;
+}
+
 /* -- Refrain moment -- */
 .release__refrain {
   margin: var(--space-10) auto;

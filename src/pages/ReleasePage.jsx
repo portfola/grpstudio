@@ -68,9 +68,9 @@ export default function ReleasePage() {
         <meta name="twitter:image" content={ogAbsolute} />
       </Head>
 
-      <p className="release__back"><Link to="/#releases">&larr; All releases</Link></p>
+      <p className="release__back anim-initial"><Link to="/#releases">&larr; All releases</Link></p>
 
-      <header className="release__masthead">
+      <header className="release__masthead anim-initial" style={{ animationDelay: '0.08s' }}>
         <div className="release__cover-frame">
           <div className="photo-overlay" />
           <div className="photo-grain" />
@@ -112,7 +112,7 @@ export default function ReleasePage() {
         </div>
       </header>
 
-      <div className="release__listen">
+      <div className="release__listen anim-initial" style={{ animationDelay: '0.16s' }}>
         <div className="player-label">
           <span className="label-rule" />
           <span className="label-text">LISTEN</span>
@@ -142,7 +142,7 @@ export default function ReleasePage() {
         </div>
       )}
 
-      {credits && (
+      {credits && (credits.producer || credits.riddim || credits.studio || credits.musicians?.length > 0) && (
         <section className="release__credits-wrap">
           <h2 className="release__credits-heading">Credits</h2>
           <dl className="release__credits">

@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import reggae from '../assets/reggae-is-happening.jpg';
 import summer from '../assets/GRP_Summer.jpg';
-import { getAllReleases } from '../data/releases';
+import { getAllReleases, getLatestRelease } from '../data/releases';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 function formatShort(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {
@@ -11,23 +11,15 @@ function formatShort(iso) {
 }
 
 /**
- * Homepage. For now this is the original single-page content (hero, ticker,
- * player, about). Task 7 rebuilds it as hero → latest drop → releases grid →
- * album teaser; the SoundCloud player moves to /album in Task 8.
+ * Homepage: hero + quote (brand) → latest-drop feature → the catalogue grid →
+ * albums teaser → about. The newest single is spotlighted; the grid carries the
+ * rest. The back-catalogue of full records lives at /albums (teaser links out).
  */
 export default function Home() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible');
-        });
-      },
-      { threshold: 0.15 }
-    );
-    document.querySelectorAll('.anim-scroll').forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  const latest = getLatestRelease();
+  const rest = getAllReleases().slice(1); // catalogue below the spotlight
+
+  useScrollReveal();
 
   return (
     <>
@@ -98,42 +90,63 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Releases grid (minimal first slice of Task 7) */}
-      <section className="releases anim-scroll" id="releases">
-        <h2 className="section-heading">Releases</h2>
-        <ul className="releases-grid">
-          {getAllReleases().map((r) => (
-            <li key={r.slug} className="release-card">
-              <Link to={`/releases/${r.slug}`} className="release-card__link">
-                <span className="release-card__cover-wrap">
-                  <img src={r.coverArt} alt={`${r.title} cover art`} className="release-card__cover" />
-                </span>
-                <span className="release-card__title">{r.title}</span>
-                <span className="release-card__date">{formatShort(r.releaseDate)}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Latest drop — the newest single, spotlighted. Anchors the #releases zone. */}
+      {latest && (
+        <section className="latest anim-scroll" id="releases">
+          <p className="latest__eyebrow">Latest Drop</p>
+          <div className="latest__inner">
+            <Link to={`/releases/${latest.slug}`} className="latest__cover-link" aria-label={`${latest.title} — open release`}>
+              <span className="release__cover-frame">
+                <span className="photo-overlay" />
+                <span className="photo-grain" />
+                <img src={latest.coverArt} alt={`${latest.title} cover art`} className="release__cover" />
+                <span className="photo-border" />
+              </span>
+            </Link>
 
-      {/* Player (moves to /album in Task 8) */}
-      <section className="player-section anim-scroll">
-        <div className="player-label">
-          <span className="label-rule" />
-          <span className="label-text">NOW SPINNING</span>
-          <span className="label-rule" />
-        </div>
-        <div className="player-embed">
-          <iframe
-            width="100%"
-            height="300"
-            scrolling="no"
-            frameBorder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tabula-rasta/sets/tabbula-rasta-reggae-regatta&color=%23c4873a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
-            title="SoundCloud Player"
-          />
-        </div>
+            <div className="latest__meta">
+              <h2 className="latest__title">{latest.title}</h2>
+              <p className="latest__date">{formatShort(latest.releaseDate)}</p>
+              {latest.refrain && <p className="latest__refrain">&ldquo;{latest.refrain}&rdquo;</p>}
+              <div className="release__actions">
+                <Link className="release__btn release__btn--primary" to={`/releases/${latest.slug}`}>
+                  Open release <span aria-hidden="true">&rarr;</span>
+                </Link>
+                <a className="release__btn" href={latest.spotifyTrackUrl} target="_blank" rel="noreferrer">
+                  Play on Spotify <span aria-hidden="true">&#8599;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* The catalogue — every release below the spotlight. */}
+      {rest.length > 0 && (
+        <section className="releases anim-scroll">
+          <h2 className="section-heading">The Catalogue</h2>
+          <ul className="releases-grid">
+            {rest.map((r) => (
+              <li key={r.slug} className="release-card">
+                <Link to={`/releases/${r.slug}`} className="release-card__link">
+                  <span className="release-card__cover-wrap">
+                    <img src={r.coverArt} alt={`${r.title} cover art`} className="release-card__cover" />
+                  </span>
+                  <span className="release-card__title">{r.title}</span>
+                  <span className="release-card__date">{formatShort(r.releaseDate)}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Albums teaser — quiet pointer to the full-length back-catalogue. */}
+      <section className="albums-teaser anim-scroll">
+        <p className="albums-teaser__line">Looking for the full records?</p>
+        <Link to="/albums" className="albums-teaser__link">
+          From the Vaults &mdash; the albums <span aria-hidden="true">&rarr;</span>
+        </Link>
       </section>
 
       {/* About */}

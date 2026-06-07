@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import Header from '../components/Header';
 
@@ -44,14 +44,21 @@ export default function RootLayout() {
 
       <div className="grain" aria-hidden="true" />
 
+      <a className="skip-link" href="#main">Skip to content</a>
+
       <Header />
 
-      <main>
+      <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
 
       <footer className="footer">
         <div className="footer-rule" />
+        <nav className="footer-nav" aria-label="Footer">
+          <Link to="/">Home</Link>
+          <Link to="/#releases">Releases</Link>
+          <Link to="/albums">Albums</Link>
+        </nav>
         <p className="footer-text">I know the concept of Rasta means&hellip;<br />RIGHTEOUSNESS</p>
       </footer>
     </>

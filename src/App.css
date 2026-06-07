@@ -288,8 +288,12 @@ main:focus { outline: none; }
 .photo-border {
   position: absolute;
   inset: 0;
-  border: 1px solid var(--color-border-secondary);
-  border-bottom: 2px solid;
+  /* Rasta ribbon wrapping all four sides. Uniform 2px width is the key: the
+     horizontal gradient sweeps red→gold→green across top & bottom and resolves
+     to solid red (left) / green (right), so every corner meets on a matching
+     colour and the frame reads as one continuous band. Uneven widths made it
+     look bottom-heavy. */
+  border: 2px solid var(--color-border-secondary);
   border-image: var(--gradient-rasta) 1;
   z-index: 4;
   pointer-events: none;
@@ -518,7 +522,7 @@ main:focus { outline: none; }
 .footer-nav a {
   font-family: var(--font-label);
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
   color: var(--color-text-tertiary);
@@ -540,8 +544,8 @@ main:focus { outline: none; }
 .footer-text {
   font-family: var(--font-quote);
   font-style: italic;
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
   line-height: 2;
 }
 
@@ -946,6 +950,7 @@ main:focus { outline: none; }
 
 .release__cover-frame {
   position: relative;
+  display: block;
   overflow: hidden;
   line-height: 0;
   max-width: 340px;

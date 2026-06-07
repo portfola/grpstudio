@@ -22,6 +22,11 @@ function toEmbedUrl(setUrl) {
   return `https://w.soundcloud.com/player/?${params.toString()}`;
 }
 
+/** Turn an Internet Archive item URL (…/details/ID) into its embed URL (…/embed/ID). */
+function toArchiveEmbedUrl(itemUrl) {
+  return itemUrl.replace('/details/', '/embed/');
+}
+
 /**
  * Per-album landing page (/albums/:slug). Mirrors the release-page anatomy —
  * framed sleeve, title + year, in-place playback, notes, credits — but the
@@ -38,9 +43,18 @@ export default function AlbumPage() {
 
   if (!album) return <NotFound />;
 
-  const { title, year, coverArt, ogImage, soundcloudUrl, notes, tracklist, credits } = album;
+  const { title, year, coverArt, ogImage, soundcloudUrl, archiveUrl, notes, tracklist, credits } = album;
   const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
   const shareUrl = `${SITE}/albums/${slug}`;
+
+  // Each album streams from one source: Internet Archive (debut) or SoundCloud.
+  const onArchive = Boolean(archiveUrl);
+  const listenUrl = archiveUrl || soundcloudUrl;
+  const listenLabel = onArchive ? 'Listen on Internet Archive' : 'Listen on SoundCloud';
+  const embedSrc = onArchive ? toArchiveEmbedUrl(archiveUrl) : toEmbedUrl(soundcloudUrl);
+  const playerTitle = onArchive
+    ? `${title} — Internet Archive player`
+    : `${title} — SoundCloud player`;
 
   function copyLink() {
     navigator.clipboard?.writeText(shareUrl).then(() => {
@@ -87,11 +101,11 @@ export default function AlbumPage() {
           <div className="release__actions">
             <a
               className="release__btn release__btn--primary"
-              href={soundcloudUrl}
+              href={listenUrl}
               target="_blank"
               rel="noreferrer"
             >
-              Listen on SoundCloud <span aria-hidden="true">&#8599;</span>
+              {listenLabel} <span aria-hidden="true">&#8599;</span>
             </a>
             <button
               type="button"
@@ -115,8 +129,8 @@ export default function AlbumPage() {
         </div>
         <iframe
           className="release__player"
-          title={`${title} — SoundCloud player`}
-          src={toEmbedUrl(soundcloudUrl)}
+          title={playerTitle}
+          src={embedSrc}
           width="100%"
           height="380"
           frameBorder="0"

@@ -527,6 +527,69 @@ body {
   color: var(--color-text-link);
 }
 
+/* ========== RELEASES GRID (minimal first slice — Task 7 builds the full version) ========== */
+.releases {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: var(--space-9) var(--space-6);
+  scroll-margin-top: var(--header-height);
+}
+
+.releases-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col), 1fr));
+  gap: var(--grid-gap);
+  margin-top: var(--space-6);
+}
+
+.release-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: inherit;
+}
+
+.release-card__cover-wrap {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+  border-bottom: 2px solid;
+  border-image: var(--gradient-rasta) 1;
+}
+
+.release-card__cover {
+  width: 100%;
+  aspect-ratio: var(--cover-aspect);
+  object-fit: cover;
+  filter: var(--photo-filter);
+  transition: filter var(--duration-slow) var(--easing-out),
+              transform var(--duration-slow) var(--easing-out);
+}
+
+.release-card__link:hover .release-card__cover,
+.release-card__link:focus-visible .release-card__cover {
+  filter: var(--photo-filter-hover);
+  transform: scale(1.03);
+}
+
+.release-card__title {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  margin-top: var(--space-3);
+}
+
+.release-card__date {
+  font-family: var(--font-label);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
 /* ========== RELEASE PAGE (minimal scaffold — Task 6 builds the full anatomy) ========== */
 .release {
   max-width: var(--max-width-prose);

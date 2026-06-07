@@ -1,6 +1,14 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import reggae from '../assets/reggae-is-happening.jpg';
 import summer from '../assets/GRP_Summer.jpg';
+import { getAllReleases } from '../data/releases';
+
+function formatShort(iso) {
+  return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {
+    year: 'numeric', month: 'short', day: 'numeric',
+  });
+}
 
 /**
  * Homepage. For now this is the original single-page content (hero, ticker,
@@ -89,6 +97,24 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Releases grid (minimal first slice of Task 7) */}
+      <section className="releases anim-scroll" id="releases">
+        <h2 className="section-heading">Releases</h2>
+        <ul className="releases-grid">
+          {getAllReleases().map((r) => (
+            <li key={r.slug} className="release-card">
+              <Link to={`/releases/${r.slug}`} className="release-card__link">
+                <span className="release-card__cover-wrap">
+                  <img src={r.coverArt} alt={`${r.title} cover art`} className="release-card__cover" />
+                </span>
+                <span className="release-card__title">{r.title}</span>
+                <span className="release-card__date">{formatShort(r.releaseDate)}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {/* Player (moves to /album in Task 8) */}
       <section className="player-section anim-scroll">

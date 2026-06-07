@@ -1,5 +1,26 @@
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, Link, NavLink, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
+
+/**
+ * React Router doesn't scroll to #hash targets or reset scroll on route
+ * change. This handles both: jump to the hashed element if present (e.g.
+ * the header "Releases" link -> /#releases), else scroll to top.
+ */
+function ScrollManager() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+}
 
 /**
  * Wraps every route: film grain, persistent header, <main> outlet, footer.
@@ -9,6 +30,7 @@ import { Head } from 'vite-react-ssg';
 export default function RootLayout() {
   return (
     <>
+      <ScrollManager />
       {/* Site-wide default head; per-page <Head> (e.g. release pages) overrides. */}
       <Head>
         <html lang="en" />

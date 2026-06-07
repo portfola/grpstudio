@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Outlet, Link, NavLink, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
-import ThemeToggle from '../components/ThemeToggle';
+import Header from '../components/Header';
 
 /**
  * React Router doesn't scroll to #hash targets or reset scroll on route
@@ -25,8 +25,6 @@ function ScrollManager() {
 
 /**
  * Wraps every route: film grain, persistent header, <main> outlet, footer.
- * Header here is a minimal navigable scaffold — Task 5 builds the full
- * sticky header + Task 4 adds the theme toggle into the marked slot.
  */
 export default function RootLayout() {
   return (
@@ -46,14 +44,7 @@ export default function RootLayout() {
 
       <div className="grain" aria-hidden="true" />
 
-      <header className="site-header">
-        <Link to="/" className="site-header__brand">GRP</Link>
-        <nav className="site-header__nav" aria-label="Primary">
-          <NavLink to="/#releases" className="site-header__link">Releases</NavLink>
-          <NavLink to="/album" className="site-header__link">Album</NavLink>
-          <ThemeToggle />
-        </nav>
-      </header>
+      <Header />
 
       <main>
         <Outlet />

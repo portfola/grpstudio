@@ -78,6 +78,9 @@ export default function AlbumPage() {
   // One displayed tracklist whether the source is `tracks` objects or `tracklist` strings.
   const displayTracks = tracklist ?? tracks?.map((t) => t.title);
 
+  // `engineer` may be a single name or a list; normalise to an array either way.
+  const engineers = [].concat(credits?.engineer ?? []);
+
   function copyLink() {
     navigator.clipboard?.writeText(shareUrl).then(() => {
       setCopied(true);
@@ -193,12 +196,15 @@ export default function AlbumPage() {
         </section>
       )}
 
-      {credits && (credits.producer || credits.studio || credits.musicians?.length > 0) && (
+      {credits && (credits.producer || credits.studio || engineers.length > 0 || credits.musicians?.length > 0) && (
         <section className="release__credits-wrap">
           <h2 className="release__credits-heading">Credits</h2>
           <dl className="release__credits">
             {credits.producer && (<><dt>Produced by</dt><dd>{credits.producer}</dd></>)}
-            {credits.studio && (<><dt>Studio</dt><dd>{credits.studio}</dd></>)}
+            {credits.studio && (<><dt>Recorded at</dt><dd>{credits.studio}</dd></>)}
+            {engineers.length > 0 && (
+              <><dt>{engineers.length > 1 ? 'Engineers' : 'Engineer'}</dt><dd>{engineers.join(' · ')}</dd></>
+            )}
             {credits.musicians?.length > 0 && (
               <><dt>Players</dt><dd>{credits.musicians.join(' · ')}</dd></>
             )}

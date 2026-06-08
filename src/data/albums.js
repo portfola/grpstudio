@@ -20,7 +20,9 @@
  *   tracks        object[] ordered { title, file, length } for archive albums; drives
  *                          the Webamp player AND the displayed list (single source).
  *                          Use this OR tracklist, not both.
- *   credits       object   { producer, musicians[], studio } (all optional)
+ *   credits       object   { producer, studio, engineer, musicians[] } (all optional).
+ *                          `studio` shows as "Recorded at". `engineer` is a single
+ *                          name OR an array (label auto-pluralises to Engineer/Engineers).
  */
 export const albums = [
   {
@@ -29,11 +31,10 @@ export const albums = [
     year: '2016',
     coverArt: '/covers/reggae-regatta.jpg',
     ogImage: '/og/reggae-regatta.jpg',
-    // This is the album that lived on the homepage SoundCloud embed.
     soundcloudUrl: 'https://soundcloud.com/tabula-rasta/sets/tabbula-rasta-reggae-regatta',
     notes: [
-      'The record that started the fleet. Reggae Regatta is a full crossing — riddims cut deep, dub tails left long, the drum machines pushed until the room hums.',
-      'Mixed for the night session: warm, weathered, and built to be played end to end. Always militant, never political.',
+      'It was the winter of our discontent. Evil forces gathered in the land. We set a course for Kandinsky\'s western gardens, and pushed on through the night.',
+      'Luminescence!',
     ],
     tracklist: [
       'GRP Funk',
@@ -51,9 +52,9 @@ export const albums = [
       'Furniture Sold',
     ],
     credits: {
-      producer: 'Sammy-on-Fire',
-      musicians: ['Bass — I. Lion', 'Keys — D. Ranks', 'Percussion — The Georgetown Section'],
-      studio: 'Georgetown Sound',
+      producer: 'Ras Reality Records',
+      musicians: ['Chinamon', 'Doc Brown', "Drumbo'x"],
+      studio: 'The Farm',
     },
   },
   {
@@ -65,8 +66,9 @@ export const albums = [
     // The debut lives on the Internet Archive, not SoundCloud.
     archiveUrl: 'https://archive.org/details/Georgetown_Reggae_Project_Tabula_Rasta',
     notes: [
-      "The GRP's debut. Tabula Rasta dropped on February 17, 2001 — a clean slate, the riddim wiped back to first principles: seven cuts of studio-built reggae, sparse and strange, dub tails left long.",
-      'Most music written by GRP. With respect to Peter, Bunny and Bob, Black Uhuru, Marcus Garvey, Big Youth — and Bret Easton Ellis. Always militant, never political.',
+      'From the depths of the Tombs to the rooftops of LXR, Tabula Rasta dropped on February 17, 2001.',
+      '"The sweet nanny goat a-go run him belly."',
+      'Most music written by GRP. With respect to Peter, Bunny and Bob, Black Uhuru, Marcus Garvey, Big Youth — and Bret Easton Ellis.',
     ],
     // Streamed straight from the Internet Archive item via the Webamp (Winamp)
     // player. `file` is the original upload under …/download/<id>/; `length` is
@@ -81,8 +83,9 @@ export const albums = [
       { title: 'Freebass (Not Like, It Is)', file: '07-Freebass-Not-Like-It-Is.mp3', length: 179.81 },
     ],
     credits: {
+      producer: 'Sammy-on-Fire Sound Systems LLC',
       musicians: ['Chinamon', 'Doc Brown', "Drumbo'x"],
-      studio: 'Georgetown Sound',
+      studio: 'Prospect Street Studios',
     },
   },
 ];

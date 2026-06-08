@@ -43,6 +43,8 @@ export default function ReleasePage() {
   if (!release) return <NotFound />;
 
   const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits } = release;
+  // `engineer` may be a single name or a list; normalise to an array either way.
+  const engineers = [].concat(credits?.engineer ?? []);
   const { newer, older } = getReleaseNeighbors(slug);
   const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
   const shareUrl = `${SITE}/releases/${slug}`;
@@ -112,7 +114,13 @@ export default function ReleasePage() {
         </div>
       </header>
 
-      <div className="release__listen anim-initial" style={{ animationDelay: '0.16s' }}>
+      {refrain && (
+        <figure className="release__refrain anim-initial" style={{ animationDelay: '0.16s' }}>
+          <blockquote>{refrain}</blockquote>
+        </figure>
+      )}
+
+      <div className="release__listen anim-initial" style={{ animationDelay: '0.24s' }}>
         <div className="player-label">
           <span className="label-rule" />
           <span className="label-text">LISTEN</span>
@@ -130,25 +138,22 @@ export default function ReleasePage() {
         />
       </div>
 
-      {refrain && (
-        <figure className="release__refrain">
-          <blockquote>{refrain}</blockquote>
-        </figure>
-      )}
-
       {linerNotes && (
         <div className="release__liner">
           {linerNotes.map((p, i) => <p key={i}>{p}</p>)}
         </div>
       )}
 
-      {credits && (credits.producer || credits.riddim || credits.studio || credits.musicians?.length > 0) && (
+      {credits && (credits.producer || credits.riddim || credits.studio || engineers.length > 0 || credits.musicians?.length > 0) && (
         <section className="release__credits-wrap">
           <h2 className="release__credits-heading">Credits</h2>
           <dl className="release__credits">
             {credits.producer && (<><dt>Produced by</dt><dd>{credits.producer}</dd></>)}
             {credits.riddim && (<><dt>Riddim</dt><dd>{credits.riddim}</dd></>)}
-            {credits.studio && (<><dt>Studio</dt><dd>{credits.studio}</dd></>)}
+            {credits.studio && (<><dt>Recorded at</dt><dd>{credits.studio}</dd></>)}
+            {engineers.length > 0 && (
+              <><dt>{engineers.length > 1 ? 'Engineers' : 'Engineer'}</dt><dd>{engineers.join(' · ')}</dd></>
+            )}
             {credits.musicians?.length > 0 && (
               <><dt>Players</dt><dd>{credits.musicians.join(' · ')}</dd></>
             )}

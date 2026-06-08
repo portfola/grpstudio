@@ -13,7 +13,9 @@
  *   spotifyTrackUrl string  source for the compact embed + "Play on Spotify"
  *   refrain         string  pulled lyric moment (optional)
  *   linerNotes      string[] paragraphs of long-form prose (optional)
- *   credits         object  { producer, musicians[], riddim, studio } (all optional)
+ *   credits         object  { producer, riddim, studio, engineer, musicians[] } (all optional).
+ *                           `studio` shows as "Recorded at". `engineer` is a single
+ *                           name OR an array (label auto-pluralises to Engineer/Engineers).
  */
 export const releases = [
   {
@@ -25,28 +27,30 @@ export const releases = [
     spotifyTrackUrl: 'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT',
     refrain: 'So hath Jah planned it.',
     linerNotes: [
-      'Cut in a single overnight session, Morning Ritual started as a bassline searching for a horizon. The TR-808 sets the swell; everything else is sail.',
-      'It is the first of the new run — militant, never political. A statement of intent before the rest of the fleet comes in.',
+      'Who would be the owner of that goat? Rise with the sun and partake of the day; but first, the morning ritual.',
+      'Igziabeher! Let Jah be praised.',
     ],
     credits: {
       producer: 'Sammy-on-Fire Sound Systems LLC',
-      studio: 'Benzito Boys',
+      studio: 'Benzito Boys Studios',
+      engineer: ['Paul Allen', 'Benihana Lunch Special']
     },
   },
   {
     slug: 'on-island',
     title: 'On Island',
-    releaseDate: '2026-05-20',
+    releaseDate: '2026-07-03',
     coverArt: '/covers/on-island.jpg',
     ogImage: '/og/on-island.jpg',
     spotifyTrackUrl: 'https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb',
-    refrain: 'Iron sharpen iron, riddim sharpen mind.',
+    refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
-      'A heavier, slower pull. On Island leans on a CR-78 shuffle pushed until it growls, with a dub tail that never quite resolves.',
+      'The studio is closed for summer, and the Gray Lady beckons',
     ],
     credits: {
       producer: 'Sammy-on-Fire Sound Systems LLC',
-      studio: 'Bank Street Studios',
+      studio: 'Milestone Road Studios',
+      engineer: 'Tom Nevers',
     },
   },
 ];

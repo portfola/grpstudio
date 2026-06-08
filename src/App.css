@@ -1086,13 +1086,15 @@ main:focus { outline: none; }
    and reserved height (main + EQ + playlist stacked ≈ 348px). */
 .webamp-host {
   position: relative;
-  min-height: 360px;
+  min-height: 580px;
   /* Winamp windows are fixed-pixel; let narrow screens scroll instead of clip. */
   overflow-x: auto;
 }
 
 .webamp-mount {
   position: relative;
+  /* Drop the player clear of the FULL RECORD label above it. */
+  margin-top: 220px;
 }
 
 .webamp-fallback {

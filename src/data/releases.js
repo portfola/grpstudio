@@ -18,34 +18,35 @@
  *                           name OR an array (label auto-pluralises to Engineer/Engineers).
  */
 export const releases = [
-  {
-    slug: 'morning-ritual',
-    title: 'Morning Ritual',
-    releaseDate: '2026-06-15',
-    coverArt: '/covers/morning-ritual.jpg',
-    ogImage: '/og/morning-ritual.jpg',
-    spotifyTrackUrl: 'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT',
-    refrain: 'So hath Jah planned it.',
-    linerNotes: [
-      'Who would be the owner of that goat? Rise with the sun and partake of the day; but first, the morning ritual.',
-      'Igziabeher! Let Jah be praised.',
-    ],
-    credits: {
-      producer: 'Sammy-on-Fire Sound Systems LLC',
-      studio: 'Benzito Boys Studios',
-      engineer: ['Paul Allen', 'Benihana Lunch Special']
-    },
-  },
+  // {
+  //   slug: 'morning-ritual',
+  //   title: 'Morning Ritual',
+  //   releaseDate: '2026-06-15',
+  //   coverArt: '/covers/morning-ritual.jpg',
+  //   ogImage: '/og/morning-ritual.jpg',
+  //   spotifyTrackUrl: 'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT',
+  //   refrain: 'So hath Jah planned it.',
+  //   linerNotes: [
+  //     'Who would be the owner of that goat? Rise with the sun and partake of the day; but first, the morning ritual.',
+  //     'Igziabeher! Let Jah be praised.',
+  //   ],
+  //   credits: {
+  //     producer: 'Sammy-on-Fire Sound Systems LLC',
+  //     studio: 'Benzito Boys Studios',
+  //     engineer: ['Paul Allen', 'Benihana Lunch Special']
+  //   },
+  // },
   {
     slug: 'on-island',
     title: 'On Island',
     releaseDate: '2026-07-03',
     coverArt: '/covers/on-island.jpg',
     ogImage: '/og/on-island.jpg',
-    spotifyTrackUrl: 'https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb',
+    spotifyTrackUrl: 'https://open.spotify.com/track/6',
     refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
-      'The studio is closed for summer, and the Gray Lady beckons',
+      'The studio is closed for summer, as one island is abandoned for another. The Grey Lady beckons with her bountiful treasures.',
+      'As the tiki torches are lit upon the sand, you might gaze beyond the treeline and catch sight of the wild nanny goats a-frolicking. But that\'s the only crowd you\'ll see out at Smith Point Beach.'
     ],
     credits: {
       producer: 'Sammy-on-Fire Sound Systems LLC',

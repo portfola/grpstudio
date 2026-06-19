@@ -46,7 +46,7 @@ export default function ReleasePage() {
   // `engineer` may be a single name or a list; normalise to an array either way.
   const engineers = [].concat(credits?.engineer ?? []);
   const { newer, older } = getReleaseNeighbors(slug);
-  const ogAbsolute = SITE + (ogImage || '/og/tabula-rasta.jpg');
+  const ogAbsolute = SITE + (ogImage || '/og/grp-logo.jpg');
   const shareUrl = `${SITE}/releases/${slug}`;
 
   function copyLink() {

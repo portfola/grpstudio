@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 
 /**
  * Reveal-on-scroll: every `.anim-scroll` element fades/rises in as it enters the
- * viewport, then is unobserved (one-shot). Shared by the homepage and the albums
- * index so the behavior stays identical. Reduced-motion is honored in CSS — the
+ * viewport, then is unobserved (one-shot). Reduced-motion is honored in CSS — the
  * `.anim-scroll` transition collapses to 0ms there, so elements still resolve to
  * visible. Pass route-varying `deps` (e.g. a slug) to re-scan after navigation.
  */

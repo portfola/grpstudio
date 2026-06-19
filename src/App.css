@@ -194,7 +194,7 @@ main:focus { outline: none; }
 /* ========== BRAND ========== */
 .brand {
   margin-bottom: var(--space-7);
-  text-align: left;
+  text-align: center;
 }
 
 .brand-grp {
@@ -215,9 +215,9 @@ main:focus { outline: none; }
   width: 80px;
   height: 4px;
   background: var(--gradient-rasta);
-  margin-top: var(--space-4);
+  margin: var(--space-4) auto 0;
   animation: slideRule 0.8s var(--easing-out) 0.6s both;
-  transform-origin: left;
+  transform-origin: center;
 }
 
 .brand-sub {
@@ -233,31 +233,49 @@ main:focus { outline: none; }
   margin-top: var(--space-5);
 }
 
-/* ========== PHOTO TREATMENT ========== */
-.hero-photo-container,
-.about-photo-container {
+/* ========== HERO CREST ========== */
+/* The transparent emblem floats over a Rasta aura — the homepage feature. */
+.hero-logo {
   position: relative;
-  overflow: hidden;
-  line-height: 0;
+  margin: 0 auto var(--space-7);
+  max-width: 420px;
 }
 
-.hero-photo-container {
-  margin: var(--space-6) 0;
+.hero-logo::before {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(196, 151, 58, 0.28) 0%, transparent 62%),
+    radial-gradient(circle at 30% 72%, rgba(58, 110, 58, 0.20) 0%, transparent 60%),
+    radial-gradient(circle at 72% 68%, rgba(155, 58, 58, 0.18) 0%, transparent 60%);
+  filter: blur(18px);
+  pointer-events: none;
+  animation: crestPulse 7s ease-in-out infinite;
 }
 
-.hero-photo,
-.about-photo {
-  width: 100%;
+.hero-logo__img {
+  position: relative;
+  z-index: 1;
   display: block;
-  filter: var(--photo-filter);
-  transition: filter var(--duration-slow) var(--easing-out);
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.45));
+  animation: crestFloat 6s ease-in-out infinite;
 }
 
-.hero-photo-container:hover .hero-photo,
-.about-photo-container:hover .about-photo {
-  filter: var(--photo-filter-hover);
+@keyframes crestFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
+@keyframes crestPulse {
+  0%, 100% { opacity: 0.7;  transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.05); }
+}
+
+/* ========== PHOTO TREATMENT (release covers) ========== */
 .photo-overlay {
   position: absolute;
   inset: 0;
@@ -311,6 +329,8 @@ main:focus { outline: none; }
   border-left: 2px solid;
   border-image: var(--gradient-rasta-v) 1;
   max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .quote p {
@@ -456,21 +476,6 @@ main:focus { outline: none; }
   margin-top: var(--space-3);
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  align-items: start;
-}
-
-.about-photo-container {
-  max-width: 240px;
-}
-
-.about-photo {
-  filter: sepia(0.45) contrast(1.15) brightness(0.75) saturate(0.65);
-}
-
 .about-body {
   font-family: var(--font-body);
   font-size: var(--font-size-base);
@@ -502,6 +507,19 @@ main:focus { outline: none; }
   padding: var(--space-7) var(--space-6) var(--space-9);
   text-align: center;
   position: relative;
+}
+
+/* Rasta-goat-in-a-Benz sign-off — transparent, so it rides on either theme. */
+.footer-art {
+  margin: 0 auto var(--space-7);
+  max-width: 340px;
+}
+
+.footer-art__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.4));
 }
 
 .footer-rule {
@@ -550,13 +568,6 @@ main:focus { outline: none; }
 }
 
 /* ========== RESPONSIVE ========== */
-@media (min-width: 600px) {
-  .about-grid {
-    grid-template-columns: 240px 1fr;
-    gap: var(--space-7);
-  }
-}
-
 @media (max-width: 480px) {
   .hero      { padding: var(--space-7) var(--space-5); }
   .brand     { margin-bottom: var(--space-6); }
@@ -566,8 +577,8 @@ main:focus { outline: none; }
     gap: var(--space-5);
     font-size: var(--font-size-xs);
   }
-  .site-header        { padding: 0 var(--space-5); gap: var(--space-4); }
-  .site-header__nav   { gap: var(--space-4); }
+  .site-header { padding: 0 var(--space-5); gap: var(--space-4); }
+  .hero-logo   { max-width: 300px; }
 }
 
 /* ========== SITE HEADER ========== */
@@ -620,193 +631,6 @@ main:focus { outline: none; }
 }
 
 .site-header__brand:focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus);
-}
-
-.site-header__nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-}
-
-/* Mobile-first: links collapse into a dropdown panel behind the menu button. */
-.site-header__links {
-  list-style: none;
-  position: absolute;
-  top: calc(100% + var(--space-2));
-  right: 0;
-  z-index: 110;
-  display: none;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--space-1);
-  min-width: 200px;
-  padding: var(--space-3);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-strong);
-  box-shadow: var(--shadow-lg);
-}
-
-/* Rasta hairline cap on the dropdown. */
-.site-header__links::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  height: 2px;
-  background: var(--gradient-rasta);
-}
-
-.site-header__nav.is-open .site-header__links {
-  display: flex;
-  animation: menuDrop var(--duration-fast) var(--easing-out);
-}
-
-.site-header__links li { width: 100%; }
-
-/* Mobile panel: full-width, comfortable touch targets. */
-.site-header__links .site-header__link {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 var(--space-3);
-}
-
-@keyframes menuDrop {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Hairline hamburger that morphs to an X off the button's aria-expanded state. */
-.site-header__menu-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin: -8px -8px -8px 0;
-  padding: 0;
-  background: transparent;
-  border: 1px solid var(--color-border-primary);
-  border-radius: var(--radius-full);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: color var(--duration-fast) var(--easing-default),
-              border-color var(--duration-fast) var(--easing-default);
-}
-
-.site-header__menu-btn:hover {
-  color: var(--color-text-link);
-  border-color: var(--color-border-strong);
-}
-
-.site-header__menu-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus);
-}
-
-.site-header__menu-icon {
-  position: relative;
-  display: block;
-  width: 20px;
-  height: 14px;
-}
-
-.site-header__menu-icon span {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  transition: transform var(--duration-normal) var(--easing-out),
-              opacity var(--duration-fast) var(--easing-default),
-              top var(--duration-normal) var(--easing-out);
-}
-
-.site-header__menu-icon span:nth-child(1) { top: 0; }
-.site-header__menu-icon span:nth-child(2) { top: 6px; }
-.site-header__menu-icon span:nth-child(3) { top: 12px; }
-
-.site-header__menu-btn[aria-expanded="true"] .site-header__menu-icon span:nth-child(1) {
-  top: 6px;
-  transform: rotate(45deg);
-}
-.site-header__menu-btn[aria-expanded="true"] .site-header__menu-icon span:nth-child(2) { opacity: 0; }
-.site-header__menu-btn[aria-expanded="true"] .site-header__menu-icon span:nth-child(3) {
-  top: 6px;
-  transform: rotate(-45deg);
-}
-
-/* Desktop: dissolve the menu button, return to an inline nav row. */
-@media (min-width: 600px) {
-  .site-header__menu-btn { display: none; }
-
-  .site-header__links {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-5);
-    min-width: 0;
-    padding: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    animation: none;
-  }
-
-  .site-header__links::before { display: none; }
-
-  .site-header__links .site-header__link {
-    width: auto;
-    min-height: 44px;
-    padding: 0;
-  }
-}
-
-.site-header__link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px; /* touch target */
-  font-family: var(--font-label);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-xs);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--easing-default);
-}
-
-/* Rasta hairline that wipes in from the left under the active/hovered link. */
-.site-header__link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 12px;
-  height: 2px;
-  background: var(--gradient-rasta);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-normal) var(--easing-out);
-}
-
-.site-header__link:hover,
-.site-header__link:focus-visible,
-.site-header__link.is-active {
-  color: var(--color-text-primary);
-}
-
-.site-header__link:hover::after,
-.site-header__link:focus-visible::after,
-.site-header__link.is-active::after {
-  transform: scaleX(1);
-}
-
-.site-header__link:focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);
 }
@@ -1081,40 +905,6 @@ main:focus { outline: none; }
   background: var(--color-bg-secondary);
 }
 
-/* Webamp (Winamp) player for archive-sourced albums. Webamp renders its skinned
-   windows absolutely inside the mount, so the host needs a positioning context
-   and reserved height (main + EQ + playlist stacked ≈ 348px). */
-.webamp-host {
-  position: relative;
-  min-height: 580px;
-  /* Winamp windows are fixed-pixel; let narrow screens scroll instead of clip. */
-  overflow-x: auto;
-}
-
-.webamp-mount {
-  position: relative;
-  /* Drop the player clear of the FULL RECORD label above it. */
-  margin-top: 220px;
-}
-
-.webamp-fallback {
-  font-family: var(--font-label);
-  font-size: var(--font-size-sm);
-  letter-spacing: var(--letter-spacing-wide);
-  color: var(--color-text-tertiary);
-  text-align: center;
-  padding: var(--space-7) var(--space-5);
-}
-
-.webamp-fallback a {
-  color: var(--color-text-link);
-  text-decoration: none;
-}
-
-.webamp-fallback a:hover {
-  text-decoration: underline;
-}
-
 /* -- Refrain moment -- */
 .release__refrain {
   margin: var(--space-10) auto;
@@ -1343,120 +1133,14 @@ main:focus { outline: none; }
   }
 }
 
-/* ========== ALBUMS TEASER (homepage) ========== */
-.albums-teaser {
-  max-width: var(--max-width-content);
-  margin: 0 auto;
-  padding: var(--space-8) var(--space-6);
-  text-align: center;
-  position: relative;
-}
-
-.albums-teaser::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: var(--space-6);
-  right: var(--space-6);
-  height: 1px;
-  background: var(--rule-fade);
-}
-
-.albums-teaser__line {
-  font-family: var(--font-quote);
-  font-style: italic;
-  font-size: var(--font-size-md);
-  color: var(--color-text-tertiary);
-  margin-bottom: var(--space-3);
-}
-
-.albums-teaser__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 44px;
-  font-family: var(--font-label);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-sm);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-  color: var(--color-text-link);
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--easing-default);
-}
-
-.albums-teaser__link:hover { color: var(--color-text-link-hover); }
-
-.albums-teaser__link:focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus);
-  border-radius: var(--radius-sm);
-}
-
-/* ========== ALBUMS INDEX (/albums) ========== */
-.albums {
-  max-width: var(--max-width-wide);
-  margin: 0 auto;
-  padding: var(--space-9) var(--space-6) var(--space-10);
-}
-
-.albums__intro {
-  font-family: var(--font-quote);
-  font-style: italic;
-  font-size: var(--font-size-md);
-  color: var(--color-text-secondary);
-  max-width: var(--measure-prose);
-  margin-bottom: var(--space-7);
-}
-
-/* ========== ALBUM PAGE — TRACKLIST ========== */
-.album__tracklist-wrap {
-  max-width: var(--measure-prose);
-  margin: var(--space-9) auto 0;
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border-primary);
-}
-
-.album__tracklist {
-  list-style: none;
-  counter-reset: track;
-}
-
-.album__track {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-  border-bottom: 1px solid var(--color-border-primary);
-}
-
-.album__track:last-child { border-bottom: none; }
-
-.album__track-num {
-  font-family: var(--font-label);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-xs);
-  letter-spacing: var(--letter-spacing-wide);
-  color: var(--color-text-link);
-  flex-shrink: 0;
-}
-
-.album__track-name {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-md);
-  color: var(--color-text-primary);
-}
-
 /* ========== REDUCED MOTION ========== */
 @media (prefers-reduced-motion: reduce) {
   .grain,
   .photo-grain,
   .ticker-track,
-  .brand-grp::after { animation: none; }
-
-  .site-header__nav.is-open .site-header__links { animation: none; }
-  .site-header__menu-icon span { transition: none; }
+  .brand-grp::after,
+  .hero-logo::before,
+  .hero-logo__img { animation: none; }
 
   .anim-initial { opacity: 1; animation: none; }
 

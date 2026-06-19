@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import reggae from '../assets/reggae-is-happening.jpg';
-import summer from '../assets/GRP_Summer.jpg';
+import logoWebp from '../assets/logo-web.webp';
+import logoPng from '../assets/logo-web.png';
 import { getAllReleases, getLatestRelease } from '../data/releases';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
@@ -11,9 +11,9 @@ function formatShort(iso) {
 }
 
 /**
- * Homepage: hero + quote (brand) → latest-drop feature → the catalogue grid →
- * albums teaser → about. The newest single is spotlighted; the grid carries the
- * rest. The back-catalogue of full records lives at /albums (teaser links out).
+ * Homepage: hero (crest + wordmark + quote) → latest-drop feature → the
+ * catalogue grid → about. The newest single is spotlighted; the grid carries
+ * the rest. The site is a single stream of singles — no albums section.
  */
 export default function Home() {
   const latest = getLatestRelease();
@@ -23,20 +23,26 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero — the crest leads, the wordmark signs it, the quote sets the tone. */}
       <section className="hero">
         <div className="hero-content">
-          <h1 className="brand anim-initial">
+          <figure className="hero-logo anim-initial">
+            <picture>
+              <source srcSet={logoWebp} type="image/webp" />
+              <img
+                src={logoPng}
+                className="hero-logo__img"
+                width="900"
+                height="865"
+                alt="Georgetown Reggae Project crest — three Rasta goats in shades fronting a ship's wheel, banner reading Reggae Project"
+              />
+            </picture>
+          </figure>
+
+          <h1 className="brand anim-initial" style={{ animationDelay: '0.35s' }}>
             <span className="brand-grp">GRP</span>
             <span className="brand-sub">Georgetown Reggae Project &mdash; Sammy-on-Fire Sound Systems</span>
           </h1>
-
-          <div className="hero-photo-container anim-initial" style={{ animationDelay: '0.3s' }}>
-            <div className="photo-overlay" />
-            <div className="photo-grain" />
-            <img src={reggae} className="hero-photo" alt="Two men play reggae guitar" />
-            <div className="photo-border" />
-          </div>
 
           <blockquote className="quote anim-initial" style={{ animationDelay: '0.7s' }}>
             <p>Maybe we are the only one who can express the people's feeling through music.</p>
@@ -141,27 +147,12 @@ export default function Home() {
         </section>
       )}
 
-      {/* Albums teaser — quiet pointer to the full-length back-catalogue. */}
-      <section className="albums-teaser anim-scroll">
-        <p className="albums-teaser__line">Looking for the full records?</p>
-        <Link to="/albums" className="albums-teaser__link">
-          From the Vaults &mdash; the albums <span aria-hidden="true">&rarr;</span>
-        </Link>
-      </section>
-
       {/* About */}
       <section className="about anim-scroll">
         <h2 className="section-heading">Whaddaman Say</h2>
-        <div className="about-grid">
-          <div className="about-photo-container">
-            <div className="photo-overlay" />
-            <div className="photo-grain" />
-            <img src={summer} className="about-photo" alt="Three men stand in front of the sea" />
-          </div>
-          <div className="about-body">
-            <p>Georgetown Reggae Project is a musical experiment focused on innovative, studio-produced, sample-rich reggae riddims.</p>
-            <p className="about-motto">Always militant. Never political.</p>
-          </div>
+        <div className="about-body">
+          <p>Georgetown Reggae Project is a musical experiment focused on innovative, studio-produced, sample-rich reggae riddims.</p>
+          <p className="about-motto">Always militant. Never political.</p>
         </div>
       </section>
     </>

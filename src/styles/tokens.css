@@ -1,0 +1,327 @@
+/* ============================================================================
+   GRP DESIGN TOKENS
+   Philosophy: Vintage dub-plate / analog studio (evolution of existing system)
+   Source: .design/grp-release-redesign/DESIGN_BRIEF.md + INFORMATION_ARCHITECTURE.md
+
+   TWO first-class themes — the same sleeve at two times of day:
+     • DARK  ("Night")    — brand default; warm near-black dub-plate mood.
+     • LIGHT ("Daytime")  — warm parchment/aged-paper, dark espresso ink.
+   Accent + Rasta colors carry across both; only grounds, ink, shadows,
+   photo/grain treatment flip.
+
+   CASCADE / DEFAULTING (dark is the base so a no-JS, no-signal visitor gets the
+   brand look):
+     :root                         -> DARK (default + fallback)
+     [data-theme="light"]          -> LIGHT (explicit user choice)
+     @media (prefers-color-scheme: light)
+        :root:not([data-theme])    -> LIGHT (no-JS system preference)
+   An inline pre-paint script in index.html sets data-theme from localStorage /
+   matchMedia to avoid FOUC; it is the primary driver, the media block is the
+   JS-off fallback. KEEP THE TWO LIGHT BLOCKS IN SYNC.
+
+   Contrast measured against each theme's --color-bg-primary.
+   Dark ground #0d0b09 (L≈0.0034) · Light ground #f4ecdb (L≈0.844).
+   AA = 4.5:1 normal text / 3:1 large·UI. Ratios annotated inline.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Chakra+Petch:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
+
+:root {
+  /* ==========================================================================
+     COLOR — RAW PALETTE (shared by both themes; consume SEMANTIC tokens below)
+     ========================================================================== */
+  /* night / shared warm darks */
+  --raw-black:        #0d0b09;
+  --raw-dark:         #171310;
+  --raw-brown:        #231e1a;
+  --raw-warm-mid:     #3d3530;
+  --raw-cream:        #e8dcc8;
+  --raw-tan:          #c8b89a;
+  --raw-muted:        #8a7c6a;
+  --raw-dim:          #6a5e50;
+  /* daytime / parchment lights */
+  --raw-parchment:    #f4ecdb;
+  --raw-parchment-2:  #e9dcc2;
+  --raw-parchment-3:  #ddcba8;
+  --raw-rule-light:   #a8977a;
+  --raw-ink:          #2a201a;
+  --raw-ink-2:        #5a4a38;
+  --raw-ink-3:        #6f5f48;
+  /* accents (shared) */
+  --raw-amber:        #c4873a;
+  --raw-gold:         #d4a04a;
+  --raw-burnt-orange: #a85a2a;
+  --raw-burnt-deep:   #8a4d14;   /* light-mode link text — AA on parchment */
+  --raw-burnt-deeper: #6e3d10;   /* light-mode link hover */
+  --raw-rasta-red:    #9b3a3a;
+  --raw-rasta-gold:   #c4973a;
+  --raw-rasta-green:  #3a6e3a;
+  --raw-deep-green:   #2a4a2a;
+  --raw-faded-red:    #7a3030;
+  --raw-error:        #d56a5a;   /* AA error on dark   (5.7:1) */
+  --raw-error-light:  #a3331f;   /* AA error on parchment (5.9:1) */
+
+  /* ==========================================================================
+     STRUCTURAL TOKENS (theme-agnostic — typography, spacing, layout, motion)
+     ========================================================================== */
+  /* -- Typography: four roles, four families -- */
+  --font-display: 'Syne', sans-serif;                   /* wordmark, section headings */
+  --font-quote:   'Cormorant Garamond', Georgia, serif; /* quotes, the pulled refrain */
+  --font-body:    'Newsreader', Georgia, serif;         /* liner notes, reading prose */
+  --font-label:   'Chakra Petch', monospace;            /* eyebrows, labels, ticker, credits keys */
+  --font-family-display: var(--font-display);
+  --font-family-body:    var(--font-body);
+  --font-family-mono:    var(--font-label);
+
+  --font-size-xs:   clamp(0.62rem, 1.6vw, 0.7rem);
+  --font-size-sm:   clamp(0.8rem, 1.8vw, 0.9rem);
+  --font-size-base: clamp(1.05rem, 2vw, 1.2rem);
+  --font-size-md:   clamp(1.2rem, 2.5vw, 1.45rem);
+  --font-size-lg:   clamp(1.4rem, 3vw, 1.9rem);
+  --font-size-xl:   clamp(1.8rem, 5vw, 2.6rem);
+  --font-size-2xl:  clamp(2rem, 6vw, 3.2rem);
+  --font-size-3xl:  clamp(3rem, 10vw, 5rem);
+  --font-size-4xl:  clamp(5rem, 16vw, 11rem);
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-black:    800;
+
+  --line-height-tight:   1.05;
+  --line-height-heading: 1.2;
+  --line-height-normal:  1.6;
+  --line-height-relaxed: 1.9;
+
+  --letter-spacing-tighter: -0.03em;
+  --letter-spacing-tight:   -0.01em;
+  --letter-spacing-normal:   0;
+  --letter-spacing-wide:     0.3em;
+  --letter-spacing-wider:    0.4em;
+
+  --measure-prose: 64ch;
+
+  /* -- Spacing: 8px base, editorial multipliers -- */
+  --space-0:  0;
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-7:  3rem;
+  --space-8:  4rem;
+  --space-9:  5rem;
+  --space-10: 6rem;
+  --space-11: 8rem;
+  --space-12: 12rem;
+
+  /* -- Layout -- */
+  --max-width-prose:   38rem;
+  --max-width-content: 46.25rem;
+  --max-width-wide:    72rem;
+  --max-width-page:    80rem;
+
+  /* Hard-edged aesthetic: radii intentionally near-zero. Do not soften. */
+  --radius-none: 0;
+  --radius-sm:   0;
+  --radius-md:   2px;
+  --radius-lg:   4px;
+  --radius-full: 9999px;
+
+  /* -- Motion -- */
+  --duration-instant: 50ms;
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+  --duration-slower:  600ms;
+  --duration-reveal:  900ms;
+  --duration-theme:   220ms;   /* theme cross-fade */
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in:      cubic-bezier(0.4, 0, 1, 1);
+  --easing-out:     cubic-bezier(0.22, 1, 0.36, 1);  /* SIGNATURE reveal */
+  --easing-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Theme-transition helper: apply to surfaces so toggling cross-fades */
+  --theme-transition:
+    background-color var(--duration-theme) var(--easing-default),
+    color            var(--duration-theme) var(--easing-default),
+    border-color     var(--duration-theme) var(--easing-default);
+
+  /* -- Structural component tokens (theme-agnostic) -- */
+  --header-height:         4rem;
+  --cover-aspect:          1 / 1;
+  --grid-min-col:          220px;
+  --grid-gap:              var(--space-5);
+  --player-height-compact: 152px;
+  --player-height-album:   300px;
+  --ticker-duration:       45s;
+  --embed-accent:          c4873a;   /* hex WITHOUT '#': &color=%23c4873a (both themes) */
+
+  /* Accents — shared across themes (used as FILLS; text use overridden per theme) */
+  --color-accent-primary:        var(--raw-amber);
+  --color-accent-primary-hover:  var(--raw-gold);
+  --color-accent-primary-active: var(--raw-burnt-orange);
+  --color-accent-secondary:      var(--raw-rasta-gold);
+  --color-rasta-red:    var(--raw-rasta-red);
+  --color-rasta-gold:   var(--raw-rasta-gold);
+  --color-rasta-green:  var(--raw-rasta-green);
+  --gradient-rasta:     linear-gradient(90deg, var(--raw-rasta-red), var(--raw-rasta-gold), var(--raw-rasta-green));
+  --gradient-rasta-v:   linear-gradient(180deg, var(--raw-rasta-red), var(--raw-rasta-gold), var(--raw-rasta-green));
+
+  /* Breakpoints (reference; @media uses literals) */
+  --breakpoint-sm:  480px;
+  --breakpoint-md:  600px;
+  --breakpoint-lg:  900px;
+  --breakpoint-xl:  1200px;
+
+  /* ==========================================================================
+     SEMANTIC TOKENS — DARK ("Night") · DEFAULT
+     ========================================================================== */
+  --color-bg-primary:      var(--raw-black);   /* page ground */
+  --color-bg-secondary:    var(--raw-dark);    /* cards, embeds, ticker bar */
+  --color-bg-tertiary:     var(--raw-brown);   /* wells, hover surfaces */
+  --color-bg-inverse:      var(--raw-cream);
+
+  --color-text-primary:    var(--raw-cream);   /* reading/liner notes — 14.5:1 */
+  --color-text-secondary:  var(--raw-tan);     /* supporting copy      — 10.1:1 */
+  --color-text-tertiary:   var(--raw-muted);   /* dates, captions      —  4.8:1 */
+  --color-text-decorative: var(--raw-dim);     /* DECORATION ONLY      —  3.1:1 */
+  --color-text-inverse:    var(--raw-black);
+  --color-text-link:       var(--raw-amber);   /* links/accents        —  6.4:1 */
+  --color-text-link-hover: var(--raw-gold);    /* link hover           —  8.0:1 */
+
+  --color-border-primary:   rgba(200, 184, 154, 0.12);
+  --color-border-secondary: rgba(200, 184, 154, 0.06);
+  --color-border-strong:    var(--raw-warm-mid);
+  --color-border-focus:     var(--raw-gold);   /* focus ring — >3:1 vs ground */
+
+  --color-status-success: var(--raw-rasta-green);
+  --color-status-warning: var(--raw-gold);
+  --color-status-error:   var(--raw-error);    /* 5.7:1 */
+  --color-status-info:    var(--raw-amber);
+
+  --color-surface-overlay: rgba(13, 11, 9, 0.7);
+
+  --shadow-letterpress: 2px 2px 0 var(--raw-burnt-orange),
+                        4px 4px 0 rgba(196, 135, 58, 0.15);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.55);
+  --shadow-focus: 0 0 0 2px var(--color-bg-primary),
+                  0 0 0 4px var(--color-border-focus);
+
+  --header-bg:          rgba(13, 11, 9, 0.85);
+  --header-border:      var(--color-border-primary);
+
+  --grain-opacity:      0.04;
+  --grain-opacity-peak: 0.07;
+  --grain-blend:        overlay;
+
+  --photo-filter:       sepia(0.35) contrast(1.1) brightness(0.8) saturate(0.75);
+  --photo-filter-hover: sepia(0.15) contrast(1.05) brightness(0.85) saturate(0.9);
+
+  --rule-fade: linear-gradient(90deg, transparent, var(--color-border-strong) 30%, var(--color-border-strong) 70%, transparent);
+}
+
+/* ============================================================================
+   SEMANTIC TOKENS — LIGHT ("Daytime") · explicit user choice
+   (Mirror of the @media block below — keep in sync.)
+   ========================================================================== */
+[data-theme="light"] {
+  --color-bg-primary:      var(--raw-parchment);    /* page ground */
+  --color-bg-secondary:    var(--raw-parchment-2);  /* cards, embeds */
+  --color-bg-tertiary:     var(--raw-parchment-3);  /* wells, hover */
+  --color-bg-inverse:      var(--raw-brown);
+
+  --color-text-primary:    var(--raw-ink);          /* reading/liner — 13.5:1 */
+  --color-text-secondary:  var(--raw-ink-2);        /* supporting    —  7.2:1 */
+  --color-text-tertiary:   var(--raw-ink-3);        /* dates/caps    —  5.3:1 */
+  --color-text-decorative: var(--raw-muted);        /* DECORATION    —  3.5:1 */
+  --color-text-inverse:    var(--raw-parchment);
+  --color-text-link:       var(--raw-burnt-deep);   /* links         —  5.7:1 (amber fails here) */
+  --color-text-link-hover: var(--raw-burnt-deeper); /* hover (darker)—  7.5:1 */
+
+  --color-border-primary:   rgba(42, 32, 26, 0.15);
+  --color-border-secondary: rgba(42, 32, 26, 0.08);
+  --color-border-strong:    var(--raw-rule-light);
+  --color-border-focus:     var(--raw-burnt-deep);  /* 5.7:1 vs parchment */
+
+  --color-status-error:   var(--raw-error-light);   /* 5.9:1 */
+
+  --color-surface-overlay: rgba(42, 32, 26, 0.45);
+
+  --shadow-letterpress: 2px 2px 0 var(--raw-burnt-orange),
+                        4px 4px 0 rgba(168, 90, 42, 0.25);
+  --shadow-sm: 0 1px 2px rgba(74, 58, 42, 0.15);
+  --shadow-md: 0 4px 16px rgba(74, 58, 42, 0.18);
+  --shadow-lg: 0 12px 40px rgba(74, 58, 42, 0.22);
+
+  --header-bg:          rgba(244, 236, 219, 0.85);
+
+  --grain-opacity:      0.05;
+  --grain-opacity-peak: 0.08;
+  --grain-blend:        multiply;   /* multiply reads better on light ground */
+
+  --photo-filter:       sepia(0.28) contrast(1.02) brightness(0.95) saturate(0.85);
+  --photo-filter-hover: sepia(0.12) contrast(1.0) brightness(1.0) saturate(0.95);
+}
+
+/* No-JS system-preference fallback. Applies LIGHT only when the user has made
+   no explicit choice (no data-theme attribute). Mirror of [data-theme="light"]. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-bg-primary:      var(--raw-parchment);
+    --color-bg-secondary:    var(--raw-parchment-2);
+    --color-bg-tertiary:     var(--raw-parchment-3);
+    --color-bg-inverse:      var(--raw-brown);
+
+    --color-text-primary:    var(--raw-ink);
+    --color-text-secondary:  var(--raw-ink-2);
+    --color-text-tertiary:   var(--raw-ink-3);
+    --color-text-decorative: var(--raw-muted);
+    --color-text-inverse:    var(--raw-parchment);
+    --color-text-link:       var(--raw-burnt-deep);
+    --color-text-link-hover: var(--raw-burnt-deeper);
+
+    --color-border-primary:   rgba(42, 32, 26, 0.15);
+    --color-border-secondary: rgba(42, 32, 26, 0.08);
+    --color-border-strong:    var(--raw-rule-light);
+    --color-border-focus:     var(--raw-burnt-deep);
+
+    --color-status-error:   var(--raw-error-light);
+
+    --color-surface-overlay: rgba(42, 32, 26, 0.45);
+
+    --shadow-letterpress: 2px 2px 0 var(--raw-burnt-orange),
+                          4px 4px 0 rgba(168, 90, 42, 0.25);
+    --shadow-sm: 0 1px 2px rgba(74, 58, 42, 0.15);
+    --shadow-md: 0 4px 16px rgba(74, 58, 42, 0.18);
+    --shadow-lg: 0 12px 40px rgba(74, 58, 42, 0.22);
+
+    --header-bg:          rgba(244, 236, 219, 0.85);
+
+    --grain-opacity:      0.05;
+    --grain-opacity-peak: 0.08;
+    --grain-blend:        multiply;
+
+    --photo-filter:       sepia(0.28) contrast(1.02) brightness(0.95) saturate(0.85);
+    --photo-filter-hover: sepia(0.12) contrast(1.0) brightness(1.0) saturate(0.95);
+  }
+}
+
+/* Honor reduced-motion globally — grain breathe, ticker, reveals, theme fade */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast:    0ms;
+    --duration-normal:  0ms;
+    --duration-slow:    0ms;
+    --duration-slower:  0ms;
+    --duration-reveal:  0ms;
+    --duration-theme:   0ms;
+    --ticker-duration:  0s;
+  }
+}

@@ -11,6 +11,11 @@
  *   coverArt        string  square cover (public path)
  *   ogImage         string  1200×630 social card (public path); optional → brand default
  *   spotifyTrackUrl string  source for the compact embed + "Play on Spotify"
+ *   upcoming        bool    PRE-LAUNCH MODE (optional). While true, the release reads as an
+ *                           "Upcoming Release": Spotify links + embed are hidden and a
+ *                           "let me know when it drops" email signup shows instead.
+ *                           Flip to false (or delete the line) + set the real spotifyTrackUrl
+ *                           the moment the track is live to restore normal playback.
  *   refrain         string  pulled lyric moment (optional)
  *   linerNotes      string[] paragraphs of long-form prose (optional)
  *   credits         object  { producer, riddim, studio, engineer, musicians[] } (all optional).
@@ -39,7 +44,8 @@ export const releases = [
   {
     slug: 'on-island',
     title: 'On Island',
-    releaseDate: '2026-07-03',
+    releaseDate: '2026-06-26',
+    upcoming: true, // PRE-LAUNCH — remove (and set the real spotifyTrackUrl) once "On Island" is live.
     coverArt: '/covers/on-island.jpg',
     ogImage: '/og/on-island.jpg',
     spotifyTrackUrl: 'https://open.spotify.com/track/6',

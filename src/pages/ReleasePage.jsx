@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { getReleaseBySlug, getReleaseNeighbors, getAllReleases } from '../data/releases';
+import EmailSignup from '../components/EmailSignup';
 import NotFound from './NotFound';
 
 const SITE = 'https://grpstudio.com'; // canonical origin for absolute OG + share urls
@@ -42,7 +43,7 @@ export default function ReleasePage() {
 
   if (!release) return <NotFound />;
 
-  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits } = release;
+  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits, upcoming } = release;
   // `engineer` may be a single name or a list; normalise to an array either way.
   const engineers = [].concat(credits?.engineer ?? []);
   const { newer, older } = getReleaseNeighbors(slug);
@@ -89,17 +90,22 @@ export default function ReleasePage() {
         <div className="release__meta">
           <p className="release__catalog">{catalogNumber(slug)}</p>
           <h1 className="release__title">{title}</h1>
-          <p className="release__date">{formatDate(releaseDate)}</p>
+          <p className="release__date">
+            {upcoming && <span className="latest__soon">Dropping</span>}
+            {formatDate(releaseDate)}
+          </p>
 
           <div className="release__actions">
-            <a
-              className="release__btn release__btn--primary"
-              href={spotifyTrackUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Play on Spotify <span aria-hidden="true">&#8599;</span>
-            </a>
+            {!upcoming && (
+              <a
+                className="release__btn release__btn--primary"
+                href={spotifyTrackUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Play on Spotify <span aria-hidden="true">&#8599;</span>
+              </a>
+            )}
             <button
               type="button"
               className={`release__btn${copied ? ' is-copied' : ''}`}
@@ -123,19 +129,23 @@ export default function ReleasePage() {
       <div className="release__listen anim-initial" style={{ animationDelay: '0.24s' }}>
         <div className="player-label">
           <span className="label-rule" />
-          <span className="label-text">LISTEN</span>
+          <span className="label-text">{upcoming ? 'COMING SOON' : 'LISTEN'}</span>
           <span className="label-rule" />
         </div>
-        <iframe
-          className="release__player"
-          title={`${title} — Spotify player`}
-          src={toEmbedUrl(spotifyTrackUrl)}
-          width="100%"
-          height="152"
-          frameBorder="0"
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        />
+        {upcoming ? (
+          <EmailSignup releaseTitle={title} />
+        ) : (
+          <iframe
+            className="release__player"
+            title={`${title} — Spotify player`}
+            src={toEmbedUrl(spotifyTrackUrl)}
+            width="100%"
+            height="152"
+            frameBorder="0"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          />
+        )}
       </div>
 
       {linerNotes && (

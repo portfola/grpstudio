@@ -3,6 +3,7 @@ import logoWebp from '../assets/logo-web.webp';
 import logoPng from '../assets/logo-web.png';
 import { getAllReleases, getLatestRelease } from '../data/releases';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import EmailSignup from '../components/EmailSignup';
 
 function formatShort(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {
@@ -99,7 +100,7 @@ export default function Home() {
       {/* Latest drop — the newest single, spotlighted. Anchors the #releases zone. */}
       {latest && (
         <section className="latest anim-scroll" id="releases">
-          <p className="latest__eyebrow">Latest Drop</p>
+          <p className="latest__eyebrow">{latest.upcoming ? 'Upcoming Release' : 'Latest Drop'}</p>
           <div className="latest__inner">
             <Link to={`/releases/${latest.slug}`} className="latest__cover-link" aria-label={`${latest.title} — open release`}>
               <span className="release__cover-frame">
@@ -112,16 +113,23 @@ export default function Home() {
 
             <div className="latest__meta">
               <h2 className="latest__title">{latest.title}</h2>
-              <p className="latest__date">{formatShort(latest.releaseDate)}</p>
+              <p className="latest__date">
+                {latest.upcoming && <span className="latest__soon">Dropping</span>}
+                {formatShort(latest.releaseDate)}
+              </p>
               {latest.refrain && <p className="latest__refrain">&ldquo;{latest.refrain}&rdquo;</p>}
-              <div className="release__actions">
-                <Link className="release__btn release__btn--primary" to={`/releases/${latest.slug}`}>
-                  Open release <span aria-hidden="true">&rarr;</span>
-                </Link>
-                <a className="release__btn" href={latest.spotifyTrackUrl} target="_blank" rel="noreferrer">
-                  Play on Spotify <span aria-hidden="true">&#8599;</span>
-                </a>
-              </div>
+              {latest.upcoming ? (
+                <EmailSignup releaseTitle={latest.title} />
+              ) : (
+                <div className="release__actions">
+                  <Link className="release__btn release__btn--primary" to={`/releases/${latest.slug}`}>
+                    Open release <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                  <a className="release__btn" href={latest.spotifyTrackUrl} target="_blank" rel="noreferrer">
+                    Play on Spotify <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </section>

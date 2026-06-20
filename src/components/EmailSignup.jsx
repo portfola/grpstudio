@@ -45,9 +45,25 @@ export default function EmailSignup({ releaseTitle }) {
 
   if (status === 'done') {
     return (
-      <div className="signup" role="status" aria-live="polite">
-        <p className="signup__done">Big up yaself! &#127881;</p>
-        <p className="signup__done-sub">We&rsquo;ll holler the moment it drops.</p>
+      <div className="signup signup--done" role="status" aria-live="polite">
+        {/* Nautical "Answering Pennant" — in the Code of Signals it means
+            "message received and understood." It hoists, then flutters. */}
+        <span className="pennant" role="img" aria-label="Answering pennant hoisted — signal received">
+          <svg className="pennant__flag" viewBox="0 0 140 60" aria-hidden="true" focusable="false">
+            <clipPath id="pennant-clip">
+              <polygon points="0,0 140,30 0,60" />
+            </clipPath>
+            <g clipPath="url(#pennant-clip)">
+              <rect x="0"   y="0" width="28" height="60" className="pennant__red" />
+              <rect x="28"  y="0" width="28" height="60" className="pennant__white" />
+              <rect x="56"  y="0" width="28" height="60" className="pennant__red" />
+              <rect x="84"  y="0" width="28" height="60" className="pennant__white" />
+              <rect x="112" y="0" width="28" height="60" className="pennant__red" />
+            </g>
+          </svg>
+        </span>
+        <p className="signup__done">Big up yaself!</p>
+        <p className="signup__done-sub">Proud of that &mdash; welcome to Ras Reality.</p>
       </div>
     );
   }
@@ -83,8 +99,8 @@ export default function EmailSignup({ releaseTitle }) {
       {status === 'error' && (
         <p className="signup__error" id={`${inputId}-err`} role="alert">
           {EMAIL_RE.test(email.trim())
-            ? 'Something went wrong — give it another go.'
-            : 'Enter a valid email address.'}
+            ? 'Miscommunication... please try again.'
+            : 'Bumboclot email!'}
         </p>
       )}
     </form>

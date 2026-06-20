@@ -983,6 +983,39 @@ main:focus { outline: none; }
 }
 
 /* Confirmation — swaps in where the form was, with a quick celebratory rise. */
+/* Nautical answering pennant: hoists up the halyard, then flutters in the breeze. */
+.pennant {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  transform-origin: left center;
+  animation: pennant-hoist var(--duration-slow) var(--easing-default) both;
+}
+
+.pennant__flag {
+  display: block;
+  width: 5.25rem;
+  height: auto;
+  transform-origin: left center;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.28));
+  animation: pennant-fly 3s ease-in-out var(--duration-slow) infinite;
+}
+
+.pennant__red   { fill: var(--raw-rasta-red); }
+.pennant__white { fill: var(--raw-parchment); }
+
+/* Hoist: rises and unfurls from the halyard. */
+@keyframes pennant-hoist {
+  from { opacity: 0; transform: translateY(0.75rem) scaleX(0.6); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Fly: a gentle luff/wave, anchored at the hoist edge. */
+@keyframes pennant-fly {
+  0%, 100% { transform: rotate(0deg) skewY(0deg); }
+  30%      { transform: rotate(-1.6deg) skewY(2.4deg); }
+  65%      { transform: rotate(1.4deg) skewY(-2deg); }
+}
+
 .signup__done {
   font-family: var(--font-display);
   font-weight: var(--font-weight-black);
@@ -1004,7 +1037,10 @@ main:focus { outline: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .signup__done { animation: none; }
+  .signup__done,
+  .pennant,
+  .pennant__flag { animation: none; }
+  .pennant { opacity: 1; transform: none; }
 }
 
 /* -- Refrain moment -- */

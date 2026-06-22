@@ -12,7 +12,8 @@ export const createRoot = ViteReactSSG(
     if (typeof window !== 'undefined') {
       import('posthog-js').then(({ default: posthog }) => {
         posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
-          api_host: 'https://us.i.posthog.com',
+          api_host: 'https://mystic.grpstudio.com',
+          ui_host: 'https://us.posthog.com',
           person_profiles: 'identified_only',
         });
       });

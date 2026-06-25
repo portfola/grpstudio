@@ -52,7 +52,7 @@ export const releases = [
     refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
       'The studio is closed for summer, as one island is abandoned for another. The Grey Lady beckons with her bountiful treasures.',
-      'As the tiki torches are lit upon the sand, you might gaze beyond the treeline and catch sight of the wild nanny goats a-frolicking. But that\'s the only crowd you\'ll see out at Smith Point Beach.'
+      'While lighting a tiki torch upon the sand, gaze beyond the treeline and catch sight of the wild nanny goats a-frolicking. But that\'s the only crowd you\'ll see out at Smith Point Beach.'
     ],
     credits: {
       producer: 'Sammy-on-Fire Sound Systems LLC',

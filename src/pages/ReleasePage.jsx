@@ -3,14 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { getReleaseBySlug, getReleaseNeighbors, getAllReleases } from '../data/releases';
 import EmailSignup from '../components/EmailSignup';
+import SpotifyPlayer from '../components/SpotifyPlayer';
 import NotFound from './NotFound';
 
 const SITE = 'https://grpstudio.com'; // canonical origin for absolute OG + share urls
-
-/** open.spotify.com/track/ID -> open.spotify.com/embed/track/ID */
-function toEmbedUrl(trackUrl) {
-  return trackUrl.replace('open.spotify.com/', 'open.spotify.com/embed/');
-}
 
 function formatDate(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {
@@ -135,16 +131,7 @@ export default function ReleasePage() {
         {upcoming ? (
           <EmailSignup releaseTitle={title} />
         ) : (
-          <iframe
-            className="release__player"
-            title={`${title} — Spotify player`}
-            src={toEmbedUrl(spotifyTrackUrl)}
-            width="100%"
-            height="152"
-            frameBorder="0"
-            loading="lazy"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          />
+          <SpotifyPlayer trackUrl={spotifyTrackUrl} title={title} slug={slug} />
         )}
       </div>
 

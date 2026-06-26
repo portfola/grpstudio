@@ -45,10 +45,10 @@ export const releases = [
     slug: 'on-island',
     title: 'On Island',
     releaseDate: '2026-06-26',
-    upcoming: true, // PRE-LAUNCH — remove (and set the real spotifyTrackUrl) once "On Island" is live.
+    // upcoming: true, 
     coverArt: '/covers/on-island.jpg',
     ogImage: '/og/on-island.jpg',
-    spotifyTrackUrl: 'https://open.spotify.com/track/6',
+    spotifyTrackUrl: 'https://open.spotify.com/track/3FsRqc79QSKeEgMqXfKnTD?si=5e64fd29028d4f55',
     refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
       'The studio is closed for summer, as one island is abandoned for another. The Grey Lady beckons with her bountiful treasures.',
@@ -56,7 +56,7 @@ export const releases = [
     ],
     credits: {
       producer: 'Sammy-on-Fire Sound Systems LLC',
-      studio: 'Milestone Road Studios',
+      studio: 'Skyline Studios, Jane Street, New York City',
       engineer: 'Tom Nevers',
     },
   },

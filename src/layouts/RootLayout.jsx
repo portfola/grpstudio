@@ -35,13 +35,24 @@ export default function RootLayout() {
       {/* Site-wide default head; per-page <Head> (e.g. release pages) overrides. */}
       <Head>
         <html lang="en" />
-        {/* Site-wide defaults; pages set their own <title>/og via <Head> and win. */}
+        {/* Site-wide defaults; pages set their own <title>/og/canonical via <Head> and win
+            (react-helmet-async dedupes by rel/property, so a page's own tag replaces this). */}
         <title>Georgetown Reggae Project</title>
         <meta name="description" content="Georgetown Reggae Project — innovative, studio-produced reggae riddims. Always militant. Never political." />
+        <link rel="canonical" href="https://grpstudio.com/" />
         <meta property="og:site_name" content="Georgetown Reggae Project" />
         <meta property="og:title" content="Georgetown Reggae Project" />
         <meta property="og:image" content="https://grpstudio.com/og/grp-logo.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'MusicGroup',
+            name: 'Georgetown Reggae Project',
+            url: 'https://grpstudio.com',
+            genre: 'Reggae',
+          })}
+        </script>
       </Head>
 
       <div className="grain" aria-hidden="true" />

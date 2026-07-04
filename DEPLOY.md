@@ -45,7 +45,7 @@ catch-all, so real release/album pages keep their own OG.
   {
     "source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|jpeg|js|json|map|png|svg|txt|webp|avif|woff|woff2|ttf|eot|xml)$)([^.]+$)/>",
     "target": "/index.html",
-    "status": "200"
+    "status": "404"
   }
 ]
 ```
@@ -55,6 +55,14 @@ catch-all, so real release/album pages keep their own OG.
 - The negative-lookahead excludes static assets by extension (`/assets/*.js|css`,
   `/covers/*.jpg`, `/og/*.jpg`, `/favicon.ico`, the `static-loader-data-*.json`,
   source maps, fonts) so they serve directly.
+- **Status is `404`, not `200`.** Every real route (home, every release slug) is
+  already prerendered as its own static file and served *before* this catch-all
+  per the bullet above — so this rule only ever fires for genuinely bad URLs.
+  Amplify's `404` status still renders the `/index.html` target (so the in-app
+  "Lost the riddim" page shows), but reports a real HTTP 404 instead of `200`.
+  A `200` here is a **soft 404**: it tells Google every bad slug is a valid,
+  indexable page, which Search Console flags and which wastes crawl budget on
+  a small, single-page-per-drop site where every real page counts.
 
 ## Post-deploy verification (do this on Amplify — can't be checked locally)
 
@@ -68,9 +76,14 @@ catch-all, so real release/album pages keep their own OG.
      deployed under `dist/`.
 2. **Social preview.** Paste a release URL into the Facebook Sharing Debugger and
    X/Twitter Card Validator; confirm the right cover + title render.
-3. **Unknown path is a soft 404.** Visit `/releases/does-not-exist` — should render
-   the in-app NotFound ("Lost the riddim"), not a raw Amplify error.
+3. **Unknown path is a real 404.** Visit `/releases/does-not-exist` — the in-app
+   NotFound ("Lost the riddim") should render, and `curl -I` against the URL (or
+   the Network tab) should show an actual `404` status, not `200`.
 4. **Assets load** (no 404s in the Network tab for `/assets/*`, `/covers/*`, `/og/*`).
 5. **No-FOUC.** Hard refresh in both an OS light and OS dark setting — no flash of
    the wrong theme (the pre-paint script in `index.html` handles this).
+6. **robots.txt + sitemap.xml are live.** `https://grpstudio.com/robots.txt` should
+   list the sitemap; `https://grpstudio.com/sitemap.xml` should list the homepage
+   plus every release slug currently in `releases.js` (auto-generated at build
+   time — see `vite.config.js`'s `grp-sitemap` plugin).
 ```

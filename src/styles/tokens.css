@@ -165,6 +165,11 @@
   --color-accent-primary-hover:  var(--raw-gold);
   --color-accent-primary-active: var(--raw-burnt-orange);
   --color-accent-secondary:      var(--raw-rasta-gold);
+  /* Text ON TOP OF accent fills (buttons, selection). Amber/gold don't flip
+     between themes, so this doesn't either — raw-black clears AA on both
+     (6.4:1 on amber, 8.3:1 on gold). Do NOT use --color-text-inverse here:
+     that token flips per theme and fails (2.6:1) on Daytime's parchment value. */
+  --color-on-accent:             var(--raw-black);
   --color-rasta-red:    var(--raw-rasta-red);
   --color-rasta-gold:   var(--raw-rasta-gold);
   --color-rasta-green:  var(--raw-rasta-green);

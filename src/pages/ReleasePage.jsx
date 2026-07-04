@@ -100,6 +100,7 @@ export default function ReleasePage() {
                 rel="noreferrer"
               >
                 Play on Spotify <span aria-hidden="true">&#8599;</span>
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             )}
             <button

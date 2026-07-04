@@ -47,6 +47,9 @@ export default function SpotifyPlayer({ trackUrl, title, slug, height = 152 }) {
     let controller;
     // Embeds load paused; we count a stream on each paused -> playing flip.
     let wasPaused = true;
+    // createController() replaces hostRef.current itself, so grab the parent
+    // now to find the generated iframe afterward.
+    const parent = hostRef.current.parentNode;
 
     loadIframeApi().then((IFrameAPI) => {
       if (cancelled || !hostRef.current) return;
@@ -56,6 +59,9 @@ export default function SpotifyPlayer({ trackUrl, title, slug, height = 152 }) {
         (ctrl) => {
           if (cancelled) { ctrl.destroy?.(); return; }
           controller = ctrl;
+          // The API doesn't expose a title option, so the generated iframe is
+          // otherwise nameless to screen readers (WCAG 4.1.2).
+          parent.querySelector('iframe')?.setAttribute('title', `${title} — Spotify player`);
           ctrl.addListener('playback_update', (e) => {
             const isPaused = e?.data?.isPaused ?? true;
             if (wasPaused && !isPaused) {

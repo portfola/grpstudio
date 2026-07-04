@@ -127,6 +127,7 @@ export default function Home() {
                   </Link>
                   <a className="release__btn" href={latest.spotifyTrackUrl} target="_blank" rel="noreferrer">
                     Play on Spotify <span aria-hidden="true">&#8599;</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </div>
               )}

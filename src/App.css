@@ -43,7 +43,7 @@ body {
 
 ::selection {
   background: var(--color-accent-primary);
-  color: var(--color-text-inverse);
+  color: var(--color-on-accent);
 }
 
 ::-webkit-scrollbar {
@@ -465,6 +465,14 @@ main:focus { outline: none; }
   margin-bottom: var(--space-6);
   position: relative;
   display: inline-block;
+  /* Without a cap, inline-block shrink-to-fit can render wider than the
+     container at narrow viewports (e.g. "Whaddaman Say" at 320px) instead of
+     wrapping, forcing page-wide horizontal scroll. */
+  max-width: 100%;
+  /* Syne at black weight renders single words (e.g. "Whaddaman") wider than
+     a 320px viewport's content box even after the line wraps normally — let
+     it break mid-word there rather than clip. */
+  overflow-wrap: anywhere;
 }
 
 .section-heading::after {
@@ -879,13 +887,13 @@ main:focus { outline: none; }
 .release__btn--primary {
   background: var(--color-accent-primary);
   border-color: var(--color-accent-primary);
-  color: var(--color-text-inverse);
+  color: var(--color-on-accent);
 }
 
 .release__btn--primary:hover {
   background: var(--color-accent-primary-hover);
   border-color: var(--color-accent-primary-hover);
-  color: var(--color-text-inverse);
+  color: var(--color-on-accent);
 }
 
 .release__btn.is-copied {

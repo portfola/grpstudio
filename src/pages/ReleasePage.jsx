@@ -59,12 +59,27 @@ export default function ReleasePage() {
       <Head>
         <title>{`${title} — Georgetown Reggae Project`}</title>
         <meta name="description" content={`${title} — a new riddim from Georgetown Reggae Project.`} />
+        <link rel="canonical" href={shareUrl} />
         <meta property="og:type" content="music.song" />
         <meta property="og:title" content={`${title} — Georgetown Reggae Project`} />
         <meta property="og:description" content={refrain || 'Always militant. Never political.'} />
         <meta property="og:image" content={ogAbsolute} />
         <meta property="og:url" content={shareUrl} />
         <meta name="twitter:image" content={ogAbsolute} />
+        {!upcoming && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'MusicRecording',
+              name: title,
+              byArtist: { '@type': 'MusicGroup', name: 'Georgetown Reggae Project' },
+              datePublished: releaseDate,
+              url: shareUrl,
+              image: ogAbsolute,
+              sameAs: [spotifyTrackUrl],
+            })}
+          </script>
+        )}
       </Head>
 
       <p className="release__back anim-initial"><Link to="/#releases">&larr; All releases</Link></p>
@@ -100,6 +115,7 @@ export default function ReleasePage() {
                 rel="noreferrer"
               >
                 Play on Spotify <span aria-hidden="true">&#8599;</span>
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             )}
             <button

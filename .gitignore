@@ -25,6 +25,7 @@ yarn-error.log*
 
 .claude
 CLAUDE.md
+DEPLOY.md
 plan.md
 .agents
 skills-lock.json

@@ -43,26 +43,35 @@ catch-all, so real release/album pages keep their own OG.
 ```json
 [
   {
-    "source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|jpeg|js|json|map|png|svg|txt|webp|avif|woff|woff2|ttf|eot|xml)$)([^.]+$)/>",
+    "source": "/<*>",
     "target": "/index.html",
-    "status": "404"
+    "status": "404-200"
   }
 ]
 ```
 
-- The regex matches extensionless paths (client routes) and rewrites them to
-  `/index.html` **only when no real file matches first**.
-- The negative-lookahead excludes static assets by extension (`/assets/*.js|css`,
-  `/covers/*.jpg`, `/og/*.jpg`, `/favicon.ico`, the `static-loader-data-*.json`,
-  source maps, fonts) so they serve directly.
-- **Status is `404`, not `200`.** Every real route (home, every release slug) is
-  already prerendered as its own static file and served *before* this catch-all
-  per the bullet above — so this rule only ever fires for genuinely bad URLs.
-  Amplify's `404` status still renders the `/index.html` target (so the in-app
-  "Lost the riddim" page shows), but reports a real HTTP 404 instead of `200`.
-  A `200` here is a **soft 404**: it tells Google every bad slug is a valid,
-  indexable page, which Search Console flags and which wastes crawl budget on
-  a small, single-page-per-drop site where every real page counts.
+- `/<*>` matches everything, but Amplify only actually applies this rule as a
+  **fallback when no real file matches first** — every real route (home, every
+  release slug) is already prerendered as its own static file, so this rule
+  only ever fires for genuinely bad URLs.
+- **Status must be `404-200`, not plain `404` or `200`.** Only `200` and
+  `404-200` are true Amplify *rewrites* — they serve the target's content
+  while keeping the original URL in the address bar. Plain `404` is **not**
+  a rewrite despite the name: empirically (and per a
+  [known Amplify Hosting issue](https://github.com/aws-amplify/amplify-hosting/issues/925))
+  it comes back as a real `302` redirect to `/index.html`, which changes the
+  browser's URL — meaning React Router sees path `/` instead of the original
+  bad slug and renders the **homepage**, not the "Lost the riddim" page. Plain
+  `200` would work as a rewrite too, but without the `404`-family fallback
+  condition it risks preempting real per-slug files (see the warning above).
+  `404-200` is the only option that is both a true rewrite *and* limited to
+  genuine misses — it's Amplify's own auto-generated default for SPAs.
+- This means Amplify has no way to report a real `404` status for a bad slug
+  without breaking client-side routing. The pragmatic mitigation: the
+  in-app NotFound page (`src/pages/NotFound.jsx`) sets
+  `<meta name="robots" content="noindex">`, which Google's crawler picks up
+  during its JS-rendering pass even though the HTTP status is a soft `200`
+  — the standard fix Google itself documents for JS-rendered SPA fallbacks.
 
 ## Post-deploy verification (do this on Amplify — can't be checked locally)
 
@@ -76,9 +85,13 @@ catch-all, so real release/album pages keep their own OG.
      deployed under `dist/`.
 2. **Social preview.** Paste a release URL into the Facebook Sharing Debugger and
    X/Twitter Card Validator; confirm the right cover + title render.
-3. **Unknown path is a real 404.** Visit `/releases/does-not-exist` — the in-app
-   NotFound ("Lost the riddim") should render, and `curl -I` against the URL (or
-   the Network tab) should show an actual `404` status, not `200`.
+3. **Unknown path stays put and renders NotFound.** Visit
+   `/releases/does-not-exist` — the address bar should still show that URL (not
+   redirect to `/index.html` or the homepage) and the in-app "Lost the riddim"
+   page should render. `curl -sIL` against the URL should end in `200` (soft
+   404 — expected, see the rewrites section above) with the *NotFound* page's
+   `<meta name="robots" content="noindex">` present in the body, not a `302`
+   to `/index.html`.
 4. **Assets load** (no 404s in the Network tab for `/assets/*`, `/covers/*`, `/og/*`).
 5. **No-FOUC.** Hard refresh in both an OS light and OS dark setting — no flash of
    the wrong theme (the pre-paint script in `index.html` handles this).

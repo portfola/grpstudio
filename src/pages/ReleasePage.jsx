@@ -4,6 +4,7 @@ import { Head } from 'vite-react-ssg';
 import { getReleaseBySlug, getReleaseNeighbors, getAllReleases } from '../data/releases';
 import EmailSignup from '../components/EmailSignup';
 import SpotifyPlayer from '../components/SpotifyPlayer';
+import RadioRequestCard from '../components/RadioRequestCard';
 import NotFound from './NotFound';
 
 const SITE = 'https://grpstudio.com'; // canonical origin for absolute OG + share urls
@@ -39,7 +40,7 @@ export default function ReleasePage() {
 
   if (!release) return <NotFound />;
 
-  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits, upcoming, badge } = release;
+  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits, upcoming, badge, radioRequest } = release;
   // `engineer` may be a single name or a list; normalise to an array either way.
   const engineers = [].concat(credits?.engineer ?? []);
   const { newer, older } = getReleaseNeighbors(slug);
@@ -153,6 +154,10 @@ export default function ReleasePage() {
           <SpotifyPlayer trackUrl={spotifyTrackUrl} title={title} slug={slug} />
         )}
       </div>
+
+      {!upcoming && radioRequest && (
+        <RadioRequestCard title={title} station={radioRequest.station} email={radioRequest.email} />
+      )}
 
       {linerNotes && (
         <div className="release__liner">

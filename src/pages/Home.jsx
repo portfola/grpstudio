@@ -4,6 +4,7 @@ import logoPng from '../assets/logo-web.png';
 import { getAllReleases, getLatestRelease } from '../data/releases';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import EmailSignup from '../components/EmailSignup';
+import RadioRequestCard from '../components/RadioRequestCard';
 
 function formatShort(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {
@@ -133,6 +134,14 @@ export default function Home() {
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </div>
+              )}
+              {!latest.upcoming && latest.radioRequest && (
+                <RadioRequestCard
+                  compact
+                  title={latest.title}
+                  station={latest.radioRequest.station}
+                  email={latest.radioRequest.email}
+                />
               )}
             </div>
           </div>

@@ -1197,6 +1197,75 @@ main:focus { outline: none; }
 
 .release__credits dd { color: var(--color-text-secondary); }
 
+/* -- Radio request postcard -- */
+/* Airmail-envelope motif: rasta-color chevron stripes along the top and
+   bottom edges, like the diagonal border on an old airmail postcard —
+   doing double duty as our red/gold/green. Invites listeners to nudge a
+   station that's already spinning the track (release.radioRequest). */
+.radio-request {
+  position: relative;
+  margin: var(--space-9) auto;
+  max-width: var(--measure-prose);
+  padding: var(--space-6);
+  border: 1px dashed var(--color-border-strong);
+  background: var(--color-bg-secondary);
+}
+
+.radio-request::before,
+.radio-request::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  height: 6px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--raw-rasta-red) 0 8px,
+    var(--color-bg-secondary) 8px 11px,
+    var(--raw-rasta-gold) 11px 19px,
+    var(--color-bg-secondary) 19px 22px,
+    var(--raw-rasta-green) 22px 30px,
+    var(--color-bg-secondary) 30px 33px
+  );
+}
+
+.radio-request::before { top: -1px; }
+.radio-request::after { bottom: -1px; }
+
+.radio-request__eyebrow {
+  font-family: var(--font-label);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-3);
+}
+
+.radio-request__copy {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  max-width: 46ch;
+  margin-bottom: var(--space-5);
+}
+
+/* Compact variant for the home spotlight, where the card sits in a
+   narrower column beside the cover art rather than the full page measure. */
+.radio-request--compact {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+}
+
+.radio-request--compact .radio-request__copy {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .radio-request { padding: var(--space-5); }
+}
+
 /* -- Prev / next -- */
 .release__nav {
   display: flex;

@@ -18,6 +18,10 @@
  *                           the moment the track is live to restore normal playback.
  *   badge           string  short hype line (optional) — rendered as a round "New!"-style
  *                           sticker slapped on the sleeve (home spotlight + release page)
+ *   radioRequest    object  { station, email } (optional) — shows a "request the riddim"
+ *                           postcard CTA (home spotlight + release page) with a one-click
+ *                           mailto asking that station to keep playing the track. Add this
+ *                           once a real station picks the song up for airplay.
  *   refrain         string  pulled lyric moment (optional)
  *   linerNotes      string[] paragraphs of long-form prose (optional)
  *   credits         object  { producer, riddim, studio, engineer, musicians[] } (all optional).
@@ -52,6 +56,10 @@ export const releases = [
     ogImage: '/og/on-island.jpg',
     spotifyTrackUrl: 'https://open.spotify.com/track/3FsRqc79QSKeEgMqXfKnTD?si=5e64fd29028d4f55',
     badge: 'As heard on 97.7 ACK-FM Nantucket!',
+    radioRequest: {
+      station: '97.7 ACK-FM Nantucket',
+      email: 'testkitchen@ackfm.com',
+    },
     refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
       'The studio is closed for summer, as one island is abandoned for another. The Grey Lady beckons with her bountiful treasures.',

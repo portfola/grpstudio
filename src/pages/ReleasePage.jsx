@@ -39,7 +39,7 @@ export default function ReleasePage() {
 
   if (!release) return <NotFound />;
 
-  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits, upcoming } = release;
+  const { title, releaseDate, coverArt, ogImage, spotifyTrackUrl, refrain, linerNotes, credits, upcoming, badge } = release;
   // `engineer` may be a single name or a list; normalise to an array either way.
   const engineers = [].concat(credits?.engineer ?? []);
   const { newer, older } = getReleaseNeighbors(slug);
@@ -100,7 +100,10 @@ export default function ReleasePage() {
 
         <div className="release__meta">
           <p className="release__catalog">{catalogNumber(slug)}</p>
-          <h1 className="release__title">{title}</h1>
+          <div className="title-burst">
+            <h1 className="release__title">{title}</h1>
+            {badge && <span className="sleeve-sticker">{badge}</span>}
+          </div>
           <p className="release__date">
             {upcoming && <span className="latest__soon">Dropping</span>}
             {formatDate(releaseDate)}

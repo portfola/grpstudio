@@ -16,6 +16,8 @@
  *                           "let me know when it drops" email signup shows instead.
  *                           Flip to false (or delete the line) + set the real spotifyTrackUrl
  *                           the moment the track is live to restore normal playback.
+ *   badge           string  short hype line (optional) — rendered as a round "New!"-style
+ *                           sticker slapped on the sleeve (home spotlight + release page)
  *   refrain         string  pulled lyric moment (optional)
  *   linerNotes      string[] paragraphs of long-form prose (optional)
  *   credits         object  { producer, riddim, studio, engineer, musicians[] } (all optional).
@@ -49,6 +51,7 @@ export const releases = [
     coverArt: '/covers/on-island.jpg',
     ogImage: '/og/on-island.jpg',
     spotifyTrackUrl: 'https://open.spotify.com/track/3FsRqc79QSKeEgMqXfKnTD?si=5e64fd29028d4f55',
+    badge: 'As heard on 97.7 ACK-FM Nantucket!',
     refrain: 'In full force gale, betta reef my sail...',
     linerNotes: [
       'The studio is closed for summer, as one island is abandoned for another. The Grey Lady beckons with her bountiful treasures.',

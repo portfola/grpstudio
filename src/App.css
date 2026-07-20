@@ -317,6 +317,79 @@ main:focus { outline: none; }
   pointer-events: none;
 }
 
+/* Hype sticker — the round "New!"-style burst floating off the headline's
+   top-right corner (data: release.badge). The wrapper shrink-wraps to the
+   title (align-self: start in the flex-column meta) so the sticker anchors
+   to where the text actually ends, not the column edge. */
+.title-burst {
+  position: relative;
+  align-self: start;
+}
+
+.sleeve-sticker {
+  position: absolute;
+  top: 0;
+  right: 0;
+  translate: 60% -80%;
+  z-index: 1;
+  width: 118px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  rotate: 8deg;
+  text-align: center;
+  text-wrap: balance;
+  font-family: var(--font-label);
+  font-weight: var(--font-weight-bold);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  /* raw-black on gold/amber: AA in both themes (see --color-on-accent note) */
+  color: var(--raw-black);
+  animation: sticker-slap var(--duration-slower) var(--easing-bounce) 0.9s both;
+  pointer-events: none;
+}
+
+/* The burst itself: clip-path lives on the pseudo so the drop-shadow (applied
+   before clipping) isn't sheared off with it. */
+.sleeve-sticker::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(circle at 32% 26%, var(--raw-gold), var(--raw-rasta-gold) 55%, var(--raw-amber));
+  clip-path: polygon(50.00% 0.00%, 56.96% 6.05%, 65.45% 2.45%, 70.20% 10.35%, 79.39% 9.55%, 81.47% 18.53%, 90.45% 20.61%, 89.65% 29.80%, 97.55% 34.55%, 93.95% 43.04%, 100.00% 50.00%, 93.95% 56.96%, 97.55% 65.45%, 89.65% 70.20%, 90.45% 79.39%, 81.47% 81.47%, 79.39% 90.45%, 70.20% 89.65%, 65.45% 97.55%, 56.96% 93.95%, 50.00% 100.00%, 43.04% 93.95%, 34.55% 97.55%, 29.80% 89.65%, 20.61% 90.45%, 18.53% 81.47%, 9.55% 79.39%, 10.35% 70.20%, 2.45% 65.45%, 6.05% 56.96%, 0.00% 50.00%, 6.05% 43.04%, 2.45% 34.55%, 10.35% 29.80%, 9.55% 20.61%, 18.53% 18.53%, 20.61% 9.55%, 29.80% 10.35%, 34.55% 2.45%, 43.04% 6.05%);
+  filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.35));
+}
+
+/* Dashed print ring just inside the burst edge. */
+.sleeve-sticker::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  z-index: -1;
+  border: 1px dashed rgba(13, 11, 9, 0.55);
+  border-radius: var(--radius-full);
+}
+
+/* Slapped on after the masthead settles: drops in from above at scale. */
+@keyframes sticker-slap {
+  from { opacity: 0; scale: 1.5; }
+  to   { opacity: 1; scale: 1; }
+}
+
+/* Narrow screens: shrink the burst, and on the release page — where the
+   wrapped title runs to the viewport edge — pull the overhang in or it gets
+   sheared off by the page's overflow-x clip. (The home spotlight title is
+   short, so its text-end anchor keeps the full overhang on screen.) */
+@media (max-width: 480px) {
+  .sleeve-sticker { width: 104px; padding: 15px; font-size: 0.62rem; }
+  .release__masthead .sleeve-sticker { translate: 15% -80%; }
+}
+
 /* ========== QUOTE ========== */
 .quote {
   font-family: var(--font-quote);
@@ -1286,7 +1359,8 @@ main:focus { outline: none; }
   .ticker-track,
   .brand-grp::after,
   .hero-logo::before,
-  .hero-logo__img { animation: none; }
+  .hero-logo__img,
+  .sleeve-sticker { animation: none; }
 
   .anim-initial { opacity: 1; animation: none; }
 

@@ -112,7 +112,10 @@ export default function Home() {
             </Link>
 
             <div className="latest__meta">
-              <h2 className="latest__title">{latest.title}</h2>
+              <div className="title-burst">
+                <h2 className="latest__title">{latest.title}</h2>
+                {latest.badge && <span className="sleeve-sticker">{latest.badge}</span>}
+              </div>
               <p className="latest__date">
                 {latest.upcoming && <span className="latest__soon">Dropping</span>}
                 {formatShort(latest.releaseDate)}

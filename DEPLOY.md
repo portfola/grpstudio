@@ -76,9 +76,9 @@ catch-all, so real release/album pages keep their own OG.
 ## Post-deploy verification (do this on Amplify — can't be checked locally)
 
 1. **Deep-link OG survives hard refresh.** In a fresh tab, open
-   `https://grpstudio.com/releases/morning-ritual` and **View Source**. Confirm:
+   `https://georgetownreggaeproject.com/releases/morning-ritual` and **View Source**. Confirm:
    - `<title>Morning Ritual — Georgetown Reggae Project</title>`
-   - `og:image` = `https://grpstudio.com/og/morning-ritual.jpg` (the song's own card, **not** the `tabula-rasta.jpg` brand fallback)
+   - `og:image` = `https://georgetownreggaeproject.com/og/morning-ritual.jpg` (the song's own card, **not** the `tabula-rasta.jpg` brand fallback)
    Repeat for an album: `/albums/reggae-regatta` → `og:type=music.album`, Reggae Regatta card.
    - 🚩 If you instead see the **homepage** title/OG, the catch-all is preempting file
      resolution — remove any extra blanket rewrite and confirm the nested files
@@ -95,8 +95,8 @@ catch-all, so real release/album pages keep their own OG.
 4. **Assets load** (no 404s in the Network tab for `/assets/*`, `/covers/*`, `/og/*`).
 5. **No-FOUC.** Hard refresh in both an OS light and OS dark setting — no flash of
    the wrong theme (the pre-paint script in `index.html` handles this).
-6. **robots.txt + sitemap.xml are live.** `https://grpstudio.com/robots.txt` should
-   list the sitemap; `https://grpstudio.com/sitemap.xml` should list the homepage
+6. **robots.txt + sitemap.xml are live.** `https://georgetownreggaeproject.com/robots.txt` should
+   list the sitemap; `https://georgetownreggaeproject.com/sitemap.xml` should list the homepage
    plus every release slug currently in `releases.js` (auto-generated at build
    time — see `vite.config.js`'s `grp-sitemap` plugin).
 ```

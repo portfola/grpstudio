@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
 import { getAllReleases } from './src/data/releases.js';
-
-const SITE = 'https://grpstudio.com';
+import { SITE } from './src/data/site.js';
 
 /**
  * Emits dist/sitemap.xml from the same releases.js array that drives

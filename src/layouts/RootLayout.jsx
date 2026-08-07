@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import Header from '../components/Header';
+import { SITE } from '../data/site';
 import rasCarWebp from '../assets/ras-car.webp';
 import rasCarPng from '../assets/ras-car.png';
 
@@ -39,17 +40,17 @@ export default function RootLayout() {
             (react-helmet-async dedupes by rel/property, so a page's own tag replaces this). */}
         <title>Georgetown Reggae Project</title>
         <meta name="description" content="Georgetown Reggae Project — innovative, studio-produced reggae riddims. Always militant. Never political." />
-        <link rel="canonical" href="https://grpstudio.com/" />
+        <link rel="canonical" href={`${SITE}/`} />
         <meta property="og:site_name" content="Georgetown Reggae Project" />
         <meta property="og:title" content="Georgetown Reggae Project" />
-        <meta property="og:image" content="https://grpstudio.com/og/grp-logo.jpg" />
+        <meta property="og:image" content={`${SITE}/og/grp-logo.jpg`} />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'MusicGroup',
             name: 'Georgetown Reggae Project',
-            url: 'https://grpstudio.com',
+            url: SITE,
             genre: 'Reggae',
           })}
         </script>

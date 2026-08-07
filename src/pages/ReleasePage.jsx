@@ -6,8 +6,7 @@ import EmailSignup from '../components/EmailSignup';
 import SpotifyPlayer from '../components/SpotifyPlayer';
 import RadioRequestCard from '../components/RadioRequestCard';
 import NotFound from './NotFound';
-
-const SITE = 'https://grpstudio.com'; // canonical origin for absolute OG + share urls
+import { SITE } from '../data/site'; // canonical origin for absolute OG + share urls
 
 function formatDate(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {

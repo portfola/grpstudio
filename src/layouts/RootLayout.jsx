@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import Header from '../components/Header';
-import { SITE } from '../data/site';
+import { SITE, SHOP_URL } from '../data/site';
 import rasCarWebp from '../assets/ras-car.webp';
 import rasCarPng from '../assets/ras-car.png';
 
@@ -83,6 +83,8 @@ export default function RootLayout() {
         <nav className="footer-nav" aria-label="Footer">
           <Link to="/">Home</Link>
           <Link to="/#releases">Releases</Link>
+          {/* Shopify storefront on its own subdomain — plain <a>, not a route. */}
+          <a href={SHOP_URL}>Shop</a>
         </nav>
         <p className="footer-text">I know the concept of Rasta means&hellip;<br />RIGHTEOUSNESS</p>
       </footer>

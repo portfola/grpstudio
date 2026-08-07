@@ -5,6 +5,7 @@ import { getReleaseBySlug, getReleaseNeighbors, getAllReleases } from '../data/r
 import EmailSignup from '../components/EmailSignup';
 import SpotifyPlayer from '../components/SpotifyPlayer';
 import RadioRequestCard from '../components/RadioRequestCard';
+import MerchStrip from '../components/MerchStrip';
 import NotFound from './NotFound';
 import { SITE } from '../data/site'; // canonical origin for absolute OG + share urls
 
@@ -180,6 +181,8 @@ export default function ReleasePage() {
           </dl>
         </section>
       )}
+
+      <MerchStrip slug={slug} />
 
       {(older || newer) && (
         <nav className="release__nav" aria-label="More releases">

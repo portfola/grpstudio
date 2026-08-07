@@ -716,6 +716,54 @@ main:focus { outline: none; }
   box-shadow: var(--shadow-focus);
 }
 
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Merch link, cut like a crate-divider tab: hard edges, a rasta spine down the
+   left, and an amber fill that wipes across on hover. */
+.site-header__shop {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem var(--space-3) 0.4rem calc(var(--space-3) + 3px);
+  font-family: var(--font-label);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  /* Spine first so it paints ON TOP of the amber wipe layer beneath it. */
+  background:
+    var(--gradient-rasta-v) left / 3px 100% no-repeat,
+    linear-gradient(var(--color-accent-primary), var(--color-accent-primary)) left / 0 100% no-repeat;
+  border: 1px solid var(--color-border-primary);
+  border-left: none;
+  transition: color var(--duration-fast) var(--easing-default),
+              border-color var(--duration-fast) var(--easing-default),
+              background-size var(--duration-normal) var(--easing-out);
+}
+
+.site-header__shop:hover,
+.site-header__shop:focus-visible {
+  color: var(--color-on-accent);
+  border-color: var(--color-accent-primary);
+  /* Wipe the amber across; the rasta spine stays pinned over it. */
+  background-size: 3px 100%, 100% 100%;
+}
+
+.site-header__shop:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__shop { transition-duration: var(--duration-instant); }
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -1264,6 +1312,45 @@ main:focus { outline: none; }
 
 @media (max-width: 480px) {
   .radio-request { padding: var(--space-5); }
+}
+
+/* -- Merch table --
+   A flat band rather than another card: one rasta hairline overhead, copy left,
+   button right. Keeps its distance from the RadioRequestCard postcard when a
+   release page carries both. */
+.merch-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  max-width: var(--measure-prose);
+  margin: var(--space-9) auto 0;
+  padding-top: var(--space-5);
+  /* Hairline as a background layer, not border-image — gradient border-images
+     slice into 9 regions and fringe at the corners. */
+  background: var(--gradient-rasta) top left / 100% 2px no-repeat;
+}
+
+.merch-strip__eyebrow {
+  font-family: var(--font-label);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.merch-strip__copy {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  max-width: 34ch;
+}
+
+@media (max-width: 480px) {
+  .merch-strip { justify-content: flex-start; }
 }
 
 /* -- Prev / next -- */

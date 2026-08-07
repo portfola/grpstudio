@@ -12,11 +12,12 @@ export const createRoot = ViteReactSSG(
     if (typeof window !== 'undefined') {
       import('posthog-js').then(({ default: posthog }) => {
         posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
-          // Deliberately still on the old domain: this is the PostHog reverse
-          // proxy, a separate DNS record from the canonical site origin (see
-          // data/site.js) and unaffected by the grpstudio.com apex redirect.
-          // Only change this alongside a matching CNAME + proxy on the new host.
-          api_host: 'https://mystic.grpstudio.com',
+          // PostHog reverse proxy — a managed-proxy subdomain with its own
+          // CNAME, separate from the canonical site origin (see data/site.js).
+          // This host must exist as a *provisioned* PostHog managed proxy with
+          // an issued cert before this line ships, or events fail silently.
+          // See DEPLOY.md → "Analytics proxy" for the ordering.
+          api_host: 'https://mystic.georgetownreggaeproject.com',
           ui_host: 'https://us.posthog.com',
           person_profiles: 'identified_only',
         });

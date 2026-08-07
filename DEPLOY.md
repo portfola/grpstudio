@@ -73,6 +73,49 @@ catch-all, so real release/album pages keep their own OG.
   during its JS-rendering pass even though the HTTP status is a soft `200`
   — the standard fix Google itself documents for JS-rendered SPA fallbacks.
 
+## Analytics proxy (PostHog)
+
+`src/index.jsx` sends events to `https://mystic.georgetownreggaeproject.com` — a
+**PostHog managed reverse proxy**, not the site origin. It exists so events are
+first-party to the site's domain and survive tracker blockers that would drop a
+direct `us.i.posthog.com` request.
+
+A managed proxy is **bound to one specific hostname** in PostHog: the domain is
+what the cert is issued for, so a new subdomain needs a *new* proxy record — you
+cannot rename one in place.
+
+> ⚠️ **Order matters, and failure is silent.** `posthog.init()` has no fallback
+> host. If `api_host` points at a name with no provisioned proxy behind it, every
+> capture fails (DNS/TLS error in the console) and collection just stops — no
+> build error, no visible breakage on the site. Provision **first**, deploy the
+> code change **last**.
+
+1. PostHog → **Settings → Project → Managed reverse proxy → New proxy**, domain
+   `mystic.georgetownreggaeproject.com`. It returns a `*.cf-prod-us-proxy.proxyhog.com`
+   target and sits in **pending / issuing**.
+2. Cloudflare (`georgetownreggaeproject.com` zone) → add `CNAME mystic` → that
+   target, **DNS-only / grey-clouded**. The target is already behind Cloudflare;
+   proxying it orange breaks cert validation.
+3. Wait for the proxy to report **valid / issued** (usually minutes). Verify
+   independently before shipping:
+   ```bash
+   dig +short mystic.georgetownreggaeproject.com
+   curl -sS -o /dev/null -w '%{http_code} ssl=%{ssl_verify_result}\n' \
+     https://mystic.georgetownreggaeproject.com/static/array.js   # want: 200 ssl=0
+   ```
+4. Only then deploy the `api_host` change. Confirm in a browser: Network tab
+   shows `POST …mystic.georgetownreggaeproject.com/i/v0/e/` returning 200, and a
+   live event lands in PostHog → Activity.
+5. **Leave the old proxy and its `mystic.grpstudio.com` CNAME up** for a grace
+   period — cached JS bundles keep posting to the old host after deploy. Delete
+   the PostHog proxy record first, then the DNS record, once traffic to it is
+   zero.
+
+No PostHog project settings besides the proxy change: the project API key,
+`ui_host`, and all historical event data are unaffected — this is a transport
+hostname, not a project identity. Events before and after the switch stay in the
+same project with no re-keying and no data migration.
+
 ## Post-deploy verification (do this on Amplify — can't be checked locally)
 
 1. **Deep-link OG survives hard refresh.** In a fresh tab, open

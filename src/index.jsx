@@ -9,7 +9,12 @@ export const createRoot = ViteReactSSG(
   () => {
     // Browser-only side effects. Guarded so they never run during the
     // Node prerender pass.
-    if (typeof window !== 'undefined') {
+    //
+    // PROD keeps `npm run dev` out of the live project: init() has no
+    // environment awareness of its own, so without this every dev session
+    // captures into the same funnel as real visitors — and mislabels it with
+    // whatever posthog-js version happens to be in local node_modules.
+    if (typeof window !== 'undefined' && import.meta.env.PROD) {
       import('posthog-js').then(({ default: posthog }) => {
         posthog.init('phc_Wtz8PjadLIzZqkkubhKIqdUUTZVAZnStY3fcyFE5Jan', {
           // PostHog reverse proxy — a managed-proxy subdomain with its own

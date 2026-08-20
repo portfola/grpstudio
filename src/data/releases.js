@@ -29,24 +29,42 @@
  *                           name OR an array (label auto-pluralises to Engineer/Engineers).
  */
 export const releases = [
-  // {
-  //   slug: 'morning-ritual',
-  //   title: 'Morning Ritual',
-  //   releaseDate: '2026-06-15',
-  //   coverArt: '/covers/morning-ritual.jpg',
-  //   ogImage: '/og/morning-ritual.jpg',
-  //   spotifyTrackUrl: 'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT',
-  //   refrain: 'So hath Jah planned it.',
-  //   linerNotes: [
-  //     'Who would be the owner of that goat? Rise with the sun and partake of the day; but first, the morning ritual.',
-  //     'Igziabeher! Let Jah be praised.',
-  //   ],
-  //   credits: {
-  //     producer: 'Sammy-on-Fire Sound Systems LLC',
-  //     studio: 'Benzito Boys Studios',
-  //     engineer: ['Paul Allen', 'Benihana Lunch Special']
-  //   },
-  // },
+  {
+    slug: 'song-of-the-summer',
+    title: 'Song of the Summer',
+    releaseDate: '2026-08-14',
+    coverArt: '/covers/song-of-the-summer.jpg',
+    ogImage: '/og/song-of-the-summer.jpg',
+    spotifyTrackUrl: 'https://open.spotify.com/track/1zbxFvBW3PtylkeuJh6WkG?si=3c2884adedc241b3',
+    refrain: 'Think upon a time I know...',
+    linerNotes: [
+      'It wasn\'t very long ago when we all knew the song of the summer. Do we pine for the days of the Top 40 Media Selecta?',
+      'Now we sit and face that Labor Day, we look back for something to hold onto...'
+    ],
+    credits: {
+      producer: 'Sammy-on-Fire Sound Systems LLC',
+      studio: 'Skyline Studios, Jane Street, New York City',
+      engineer: 'Drumbo\'x'
+    }
+  },
+  {
+    slug: 'morning-ritual',
+    title: 'Morning Ritual',
+    releaseDate: '2026-08-14',
+    coverArt: '/covers/morning-ritual.jpg',
+    ogImage: '/og/morning-ritual.jpg',
+    spotifyTrackUrl: 'https://open.spotify.com/track/7AubuoMfTol4yuZ2nCSNR9?si=bcfc27d27c984d5f',
+    refrain: 'So hath Jah planned it',
+    linerNotes: [
+      'Who would be the owner of that goat? Rise with the sun and partake of the day; but first, the morning ritual.',
+      'Igziabeher! Let Jah be praised.',
+    ],
+    credits: {
+      producer: 'Sammy-on-Fire Sound Systems LLC',
+      studio: 'Skyline Studios, Jane Street, New York City',
+      engineer: ['Paul Allen', 'Benihana Lunch Special'],
+    },
+  },
   {
     slug: 'on-island',
     title: 'On Island',
@@ -73,9 +91,13 @@ export const releases = [
   },
 ];
 
-/** All releases, newest first. */
+/**
+ * All releases, newest first. Releases sharing a date keep their order in the
+ * array above (Array#sort is stable), so a same-day drop's position is decided
+ * by where it sits in the list — the ONE case where hand-order matters.
+ */
 export function getAllReleases() {
-  return [...releases].sort((a, b) => (a.releaseDate < b.releaseDate ? 1 : -1));
+  return [...releases].sort((a, b) => b.releaseDate.localeCompare(a.releaseDate));
 }
 
 /** The newest release (the "latest drop"). */
